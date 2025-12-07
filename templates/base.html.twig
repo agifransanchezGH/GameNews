@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}GAMENEWS{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+        {% block stylesheets %}
+            
+        {% endblock %}
+    </head>
+    <body>
+        {% block header %}
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background-color: #000000ff; color: #ffffff;">
+        <a href="{{ path('app_pagina_principal') }}"><h1>GAMENEWS</h1></a>
+        
+        {% if app.user and 'ROLE_USER' in app.user.roles %}
+        
+            <p> Usuario: {{ app.user.nombreUsuario }}</p>
+        
+        {% elseif app.user and 'ROLE_EDITOR' in app.user.roles %} 
+        
+            <p> Editor: {{ app.user.nombreUsuario }}</p>
+        
+        {% elseif app.user and 'ROLE_ADMIN' in app.user.roles %} 
+        
+            <p> Administrador: {{ app.user.nombreUsuario }}</p>
+        
+        {% endif %}
+        
+        {% if app.user %}
+        
+            <a href="{{ path('app_salir') }}"><button>Cerrar Sesión</button></a>
+        
+        {% else %}
+        
+            <a href="{{ path('app_iniciar_sesion') }}"><button>Iniciar Sesión</button></a>
+        
+        {% endif %}
+        
+        </div>
+        
+        {% endblock %}
+        
+        {% block body %}{% endblock %}
+    </body>
+</html>
