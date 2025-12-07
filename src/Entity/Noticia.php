@@ -35,6 +35,9 @@ class Noticia
     #[ORM\Column(type: Types::FLOAT, nullable: true)]
     private ?float $valoracionPromedio = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imagen = null;
+    
     #[ORM\OneToMany(targetEntity: Comentario::class, mappedBy: 'Noticia', orphanRemoval: true)]
     
     private Collection $comentarios;
@@ -125,6 +128,17 @@ class Noticia
         return $this;
     }
 
+    // --- Nuevo getter/setter para imagen ---
+    public function getImagen(): ?string
+    {
+        return $this->imagen;
+    }
+
+    public function setImagen(?string $imagen): static
+    {
+        $this->imagen = $imagen;
+        return $this;
+    }
     /**
      * @return Collection<int, Comentario>
      */
