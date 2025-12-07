@@ -32,9 +32,13 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Comentario::class, mappedBy: 'usuario')]
     private Collection $comentario;
 
+    #[ORM\OneToMany(targetEntity: VotoComentario::class, mappedBy: 'Usuario')]
+    private Collection $votoComentarios;
+
     public function __construct()
     {
         $this->comentario = new ArrayCollection();
+        $this->votoComentarios = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -168,6 +172,36 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($comentario->getUsuario() === $this) {
                 $comentario->setUsuario(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, VotoComentario>
+     */
+    public function getVotoComentarios(): Collection
+    {
+        return $this->votoComentarios;
+    }
+
+    public function addVotoComentario(VotoComentario $votoComentario): static
+    {
+        if (!$this->votoComentarios->contains($votoComentario)) {
+            $this->votoComentarios->add($votoComentario);
+            $votoComentario->setUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVotoComentario(VotoComentario $votoComentario): static
+    {
+        if ($this->votoComentarios->removeElement($votoComentario)) {
+            // set the owning side to null (unless already changed)
+            if ($votoComentario->getUsuario() === $this) {
+                $votoComentario->setUsuario(null);
             }
         }
 

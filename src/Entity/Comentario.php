@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ComentarioRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -35,6 +37,14 @@ class Comentario
 
     #[ORM\ManyToOne(inversedBy: 'comentario')]
     private ?Usuario $usuario = null;
+
+    #[ORM\OneToMany(targetEntity: VotoComentario::class, mappedBy: 'comentario')]
+    private Collection $votoComentarios;
+
+    public function __construct()
+    {
+        $this->votoComentarios = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -124,5 +134,42 @@ class Comentario
         $this->usuario = $usuario;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, VotoComentario>
+     */
+    public function getVotoComentarios(): Collection
+    {
+        return $this->votoComentarios;
+    }
+
+    public function addVotoComentario(VotoComentario $votoComentario): static
+    {
+        if (!$this->votoComentarios->contains($votoComentario)) {
+            $this->votoComentarios->add($votoComentario);
+            $votoComentario->setComentario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVotoComentario(VotoComentario $votoComentario): static
+    {
+        if ($this->votoComentarios->removeElement($votoComentario)) {
+            // set the owning side to null (unless already changed)
+            if ($votoComentario->getComentario() === $this) {
+                $votoComentario->setComentario(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getValor(): int
+    {
+    $positivos = $this->votoComentarios->filter(fn($v) => $v->getValor() === true)->count();
+    $negativos = $this->votoComentarios->filter(fn($v) => $v->getValor() === false)->count();
+    return $positivos - $negativos;
     }
 }
