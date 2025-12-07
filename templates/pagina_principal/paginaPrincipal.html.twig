@@ -5,35 +5,31 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div style= "display: flex; flex-direction: column; align-items: center; margin-top: 20px; background-color: #000000ff; color: #ffffff; padding: 20px; border-radius: 10px;">
+    <div class="bienvenida-container">
     <h1>Bienvenido a GAMENEWS</h1>
     
     <p>Tu portal de noticias sobre videojuegos. Mantente informado sobre los últimos lanzamientos, análisis, trucos y todo lo que necesitas saber sobre la industria del gaming</p>
     </div>
 
 <!--Bloque de contenido para cada noticia-->
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
-{% for noticia in noticias %}
-
-{% if not noticia %}
-    throw $this->createNotFoundException('La noticia no existe.');
-{% else %}
-    <a href="{{ path('app_pagina_noticia', {'id': noticia.id}) }}">
-    <div>
-      <div style="background-color: #1a1a1a; padding: 15px; border-radius: 8px; color:white; display: inline-block; height: 100%;">
-        <img src="" alt="Imagen de ejemplo">
-        <div>
-          <h5>{{ noticia.titulo }}</h5>
-          <p >{{ noticia.cuerpo }}</p>
-        </div>
-        <div>
-          <small>{{ noticia.fechaPublicacion|date('d M Y') }}</small><br>
-          <small>Valoración: ★ {{ noticia.valoracionPromedio }}</small>
-        </div>
-      </div>
-    </div>
-    </a>
-    {% endif %}
-  {% endfor  %}
+<div class="noticias-grid">
+    {% for noticia in noticias %}
+        <a href="{{ path('app_pagina_noticia', {'id': noticia.id}) }}" class="noticia-card">
+            <div class="noticia-content">
+                <img src="{{ asset('images/' ~ noticia.imagen) }}" alt="{{ noticia.titulo }}" class="noticia-img">
+                <div class="noticia-text">
+                    <h5 class="noticia-titulo">{{ noticia.titulo }}</h5>
+                    <p class="noticia-cuerpo">{{ noticia.cuerpo }}</p>
+                </div>
+                <div class="noticia-meta">
+                    <small class="noticia-fecha">{{ noticia.fechaPublicacion|date('d M Y') }}</small><br>
+                    <small class="noticia-valoracion">Valoración: ★ {{ noticia.valoracionPromedio }}</small>
+                </div>
+            </div>
+        </a>
+    {% else %}
+        <p class="no-noticias">No hay noticias disponibles.</p>
+    {% endfor %}
 </div>
+
 {% endblock %}

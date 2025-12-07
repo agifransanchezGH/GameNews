@@ -1,47 +1,181 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}GAMENEWS{% endblock %}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
-        {% block stylesheets %}
-            
-        {% endblock %}
-    </head>
-    <body>
-        {% block header %}
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background-color: #000000ff; color: #ffffff;">
-        <a href="{{ path('app_pagina_principal') }}"><h1>GAMENEWS</h1></a>
-        
-        {% if app.user and 'ROLE_USER' in app.user.roles %}
-        
-            <p> Usuario: {{ app.user.nombreUsuario }}</p>
-        
-        {% elseif app.user and 'ROLE_EDITOR' in app.user.roles %} 
-        
-            <p> Editor: {{ app.user.nombreUsuario }}</p>
-        
-        {% elseif app.user and 'ROLE_ADMIN' in app.user.roles %} 
-        
-            <p> Administrador: {{ app.user.nombreUsuario }}</p>
-        
-        {% endif %}
-        
-        {% if app.user %}
-        
-            <a href="{{ path('app_salir') }}"><button>Cerrar Sesión</button></a>
-        
-        {% else %}
-        
-            <a href="{{ path('app_iniciar_sesion') }}"><button>Iniciar Sesión</button></a>
-        
-        {% endif %}
-        
-        </div>
-        
-        {% endblock %}
-        
-        {% block body %}{% endblock %}
-    </body>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}GAMENEWS
+			{% endblock %}
+		</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+		{% block stylesheets %}
+			<style>
+				.logo-container {
+					display: flex;
+					align-items: center;
+					gap: 10px;
+					background-color: #000;
+					padding: 10px 20px;
+				}
+
+				.logo-icon {
+					font-size: 36px;
+				}
+
+				.logo-title {
+					font-size: 48px;
+					font-weight: bold;
+					font-family: Arial, sans-serif;
+				}
+
+				.logo-title .game {
+					color: white;
+				}
+
+				.logo-title .news {
+					color: purple;
+				}
+
+				.bienvenida-container {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					margin: 40px auto;
+					max-width: 800px;
+					background: linear-gradient(135deg, #6a00ff, #0077ff);
+					color: #ffffff;
+					padding: 30px;
+					border-radius: 15px;
+					box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+					text-align: center;
+				}
+
+				.bienvenida-container h1 {
+					margin-bottom: 15px;
+				}
+
+				.bienvenida-container p {
+					font-size: 1.1em;
+					line-height: 1.6;
+				}
+				.noticias-grid {
+					display: grid;
+					grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+					gap: 30px;
+					margin: 40px auto;
+					max-width: 1200px;
+					padding: 0 20px;
+				}
+
+				.noticia-card {
+					text-decoration: none;
+					color: inherit;
+				}
+
+				.noticia-content {
+					background-color: #1a1a1a;
+					padding: 20px;
+					border-radius: 12px;
+					color: white;
+					height: 100%;
+					box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+					transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+					border: 2px solid transparent;
+					display: flex;
+					flex-direction: column;
+				}
+
+				.noticia-card:hover .noticia-content {
+					transform: translateY(-5px) scale(1.02);
+					box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+					border-color: #6a00ff;
+					background-color: #2a2a2a;
+				}
+
+				/* Imagen con zoom */
+				.noticia-content img {
+					width: 100%;
+					height: auto;
+					border-radius: 8px;
+					margin-bottom: 10px;
+					background-color: #333;
+					transition: transform 0.3s ease;
+				}
+
+				.noticia-card:hover .noticia-content img {
+					transform: scale(1.05);
+				}
+
+				/* Título con color destacado */
+				.noticia-content h5 {
+					margin: 10px 0;
+					font-size: 1.2em;
+					transition: color 0.3s ease;
+				}
+
+				.noticia-card:hover .noticia-content h5 {
+					color: #6a00ff;
+				}
+
+				/* Texto y meta */
+				.noticia-content p {
+					font-size: 0.95em;
+					line-height: 1.4;
+					margin-bottom: 10px;
+				}
+
+				.noticia-content small {
+					font-size: 0.85em;
+					color: #ccc;
+				}
+			</style>
+		{% endblock %}
+	</head>
+	<body>
+		{% block header %}
+			<div class="logo-container" style="justify-content: space-between;">
+				<a href="{{ path('app_pagina_principal') }}" style="text-decoration: none; display: flex; align-items: center;">
+					<span class="logo-icon">🎮</span>
+					<h1 class="logo-title">
+						<span class="game">GAME</span>
+						<span class="news">NEWS</span>
+					</h1>
+				</a>
+
+				<div style="color: white;">
+					{% if app.user and 'ROLE_USER' in app.user.roles %}
+						<p>Usuario:
+							{{ app.user.nombreUsuario }}</p>
+					{% elseif app.user and 'ROLE_EDITOR' in app.user.roles %}
+						<p>Editor:
+							{{ app.user.nombreUsuario }}</p>
+					{% elseif app.user and 'ROLE_ADMIN' in app.user.roles %}
+						<p>Administrador:
+							{{ app.user.nombreUsuario }}</p>
+					{% endif %}
+
+					{% if app.user %}
+						<a href="{{ path('app_salir') }}">
+							<button>Cerrar Sesión</button>
+						</a>
+					{% else %}
+						<a href="{{ path('app_iniciar_sesion') }}">
+							<button>Iniciar Sesión</button>
+						</a>
+					{% endif %}
+				</div>
+			</div>
+		{% endblock %}
+
+		{% block body %}{% endblock %}
+
+		<footer class="text-center text-light py-4">
+			<div class="container">
+				<p>&copy; 2025 GameNews. Todas las noticias sobre videojuegos.</p>
+				<p>
+					<a class="text-light me-3">Términos y Condiciones -- Política de Privacidad</a>
+				</p>
+			</div>
+		</footer>
+	</body>
 </html>
