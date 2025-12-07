@@ -1,0 +1,44 @@
+
+
+{% block title %}GAMENEWS-Noticia{% endblock %}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    
+    <div>
+    <div>
+        <img src="" alt="Imagen de ejemplo">
+        <h1>{{ noticia.titulo }}</h1>
+        <h2>{{ noticia.subtitulo }}</h2>
+        <small>{{ noticia.fechaPublicacion|date('d M Y') }}</small><br>
+        <small>Valoración: ★ {{ noticia.valoracionPromedio }}</small>
+        <p> {{ noticia.cuerpo }}</p>
+    </div>
+
+    <!--Bloque para realizar un comentario-->
+    <div>
+    <h3>Comentarios</h3>
+        <form action="{{ path('agregar_comentario', {id: noticia.id}) }}" method="post">
+        <textarea name="contenido" rows="4" required></textarea>
+        <button type="submit">Enviar</button>
+</form>
+
+    </div>
+    <div>
+    <!--Bloque para mostrar los comentarios (si los hay)-->
+    <h4>Comentarios existentes:</h4>
+        {%if noticia.comentarios is empty %}
+            <p>No hay comentarios aún. Sé el primero en comentar!</p>
+        {% else %}
+        {% for comentario in noticia.comentarios %}
+            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+                <p><strong>{{ comentario.usuario.nombreUsuario }}</strong></p>
+                <p>{{ comentario.contenido }}</p>
+
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+</div>
+{% endblock %}
