@@ -35,10 +35,18 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: VotoComentario::class, mappedBy: 'Usuario')]
     private Collection $votoComentarios;
 
+    #[ORM\OneToMany(targetEntity: VotoNoticia::class, mappedBy: 'usuario')]
+    private Collection $votoNoticias;
+
+    #[ORM\OneToMany(targetEntity: DenunciaComentario::class, mappedBy: 'denunciante', orphanRemoval: true)]
+    private Collection $denunciaComentario;
+
     public function __construct()
     {
         $this->comentario = new ArrayCollection();
         $this->votoComentarios = new ArrayCollection();
+        $this->votoNoticias = new ArrayCollection();
+        $this->denunciaComentario = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -202,6 +210,66 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($votoComentario->getUsuario() === $this) {
                 $votoComentario->setUsuario(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, VotoNoticia>
+     */
+    public function getVotoNoticias(): Collection
+    {
+        return $this->votoNoticias;
+    }
+
+    public function addVotoNoticia(VotoNoticia $votoNoticia): static
+    {
+        if (!$this->votoNoticias->contains($votoNoticia)) {
+            $this->votoNoticias->add($votoNoticia);
+            $votoNoticia->setUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVotoNoticia(VotoNoticia $votoNoticia): static
+    {
+        if ($this->votoNoticias->removeElement($votoNoticia)) {
+            // set the owning side to null (unless already changed)
+            if ($votoNoticia->getUsuario() === $this) {
+                $votoNoticia->setUsuario(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DenunciaComentario>
+     */
+    public function getDenunciaComentario(): Collection
+    {
+        return $this->denunciaComentario;
+    }
+
+    public function addDenunciaComentario(DenunciaComentario $denunciaComentario): static
+    {
+        if (!$this->denunciaComentario->contains($denunciaComentario)) {
+            $this->denunciaComentario->add($denunciaComentario);
+            $denunciaComentario->setDenunciante($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDenunciaComentario(DenunciaComentario $denunciaComentario): static
+    {
+        if ($this->denunciaComentario->removeElement($denunciaComentario)) {
+            // set the owning side to null (unless already changed)
+            if ($denunciaComentario->getDenunciante() === $this) {
+                $denunciaComentario->setDenunciante(null);
             }
         }
 

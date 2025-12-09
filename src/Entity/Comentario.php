@@ -25,12 +25,6 @@ class Comentario
     #[ORM\Column(length: 50)]
     private ?string $estadoModeracion = null;
     
-    #[ORM\Column(type: Types::INTEGER)]
-    private ?int $votosPositivos = null;
-
-    #[ORM\Column(type: Types::INTEGER)]
-    private ?int $votosNegativos = null;
-
     #[ORM\ManyToOne(inversedBy: 'comentarios')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Noticia $Noticia = null;
@@ -84,30 +78,6 @@ class Comentario
     public function setEstadoModeracion(string $estadoModeracion): static
     {
         $this->estadoModeracion = $estadoModeracion;
-
-        return $this;
-    }
-
-    public function getVotosPositivos(): ?int
-    {
-        return $this->votosPositivos;
-    }
-
-    public function setVotosPositivos(int $votosPositivos): static
-    {
-        $this->votosPositivos = $votosPositivos;
-
-        return $this;
-    }
-
-    public function getVotosNegativos(): ?int
-    {
-        return $this->votosNegativos;
-    }
-
-    public function setVotosNegativos(int $votosNegativos): static
-    {
-        $this->votosNegativos = $votosNegativos;
 
         return $this;
     }
@@ -168,8 +138,8 @@ class Comentario
 
     public function getValor(): int
     {
-    $positivos = $this->votoComentarios->filter(fn($v) => $v->getValor() === true)->count();
-    $negativos = $this->votoComentarios->filter(fn($v) => $v->getValor() === false)->count();
-    return $positivos - $negativos;
+        $positivos = $this->votoComentarios->filter(fn($v) => $v->getValor() === true)->count();
+        $negativos = $this->votoComentarios->filter(fn($v) => $v->getValor() === false)->count();
+        return $positivos - $negativos;
     }
 }

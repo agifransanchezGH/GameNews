@@ -17,14 +17,20 @@
     </div>
 
     <!--Bloque para realizar un comentario-->
-    <div>
-    <h3>Comentarios</h3>
+    {% if app.user %}
+         <h3>Comentarios</h3>
         <form action="{{ path('agregar_comentario', {id: noticia.id}) }}" method="post">
         <textarea name="contenido" rows="4" required></textarea>
         <button type="submit">Enviar</button>
+    {% else %}
+        <p> Usuario no autenticado. Inicia sesion para dejar un comentario.</p>
+        <a href="{{ path('app_iniciar_sesion') }}"><button>iniciar sesión</button></a>
+    {% endif %}
+    <div>
+   
 </form>
 
-    </div>
+</div>
     <div>
     <!--Bloque para mostrar los comentarios (si los hay)-->
     <h4>Comentarios existentes:</h4>
@@ -35,10 +41,17 @@
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
                 <p><strong>{{ comentario.usuario.nombreUsuario }}</strong></p>
                 <p>{{ comentario.contenido }}</p>
-
+                <p>
+                    <a href="{{ path('votar_comentario', {id: comentario.id, valor: 1}) }}">
+                        <button>👍{{ comentario.votoComentarios|filter(v => v.valor)|length }}</button>
+                    </a>
+                    <a href="{{ path('votar_comentario', {id: comentario.id, valor: 0}) }}">
+                        <button>👎{{ comentario.votoComentarios|filter(v => not v.valor)|length }}</button>
+                    </a>
+                <p>
             </div>
         {% endfor %}
     {% endif %}
-    
+    </div>
 </div>
 {% endblock %}

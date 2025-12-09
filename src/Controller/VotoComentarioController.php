@@ -12,12 +12,10 @@ use App\Entity\VotoComentario;
 class VotoComentarioController extends AbstractController
 {
     #[Route('/comentario/{id}/votar/{valor}', name: 'votar_comentario')]
-public function votarComentario(
-    int $id,
-    bool $valor,
-    EntityManagerInterface $em
-): Response {
+public function votarComentario(int $id,bool $valor,EntityManagerInterface $em): Response 
+{
     $usuario = $this->getUser();
+
     if (!$usuario) {
         return $this->redirectToRoute('app_iniciar_sesion');
     }

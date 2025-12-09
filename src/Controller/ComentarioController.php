@@ -30,8 +30,6 @@ public function agregarComentario(Request $request, EntityManagerInterface $em, 
         $comentario->setNoticia($noticia);
         $comentario->setFechaHora(new \DateTime());
         $comentario->setEstadoModeracion('normal');
-        $comentario->setVotosPositivos(0);
-        $comentario->setVotosNegativos(0);
         $em->persist($comentario);
         $em->flush();
     }

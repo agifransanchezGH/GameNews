@@ -45,10 +45,14 @@ class Noticia
     #[ORM\OneToMany(targetEntity: Comentario::class, mappedBy: 'noticia')]
     private Collection $comentario;
 
+    #[ORM\OneToMany(targetEntity: VotoNoticia::class, mappedBy: 'noticia')]
+    private Collection $votoNoticias;
+
     public function __construct()
     {
         $this->comentarios = new ArrayCollection();
         $this->comentario = new ArrayCollection();
+        $this->votoNoticias = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -175,5 +179,35 @@ class Noticia
     public function getComentario(): Collection
     {
         return $this->comentario;
+    }
+
+    /**
+     * @return Collection<int, VotoNoticia>
+     */
+    public function getVotoNoticias(): Collection
+    {
+        return $this->votoNoticias;
+    }
+
+    public function addVotoNoticia(VotoNoticia $votoNoticia): static
+    {
+        if (!$this->votoNoticias->contains($votoNoticia)) {
+            $this->votoNoticias->add($votoNoticia);
+            $votoNoticia->setNoticia($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVotoNoticia(VotoNoticia $votoNoticia): static
+    {
+        if ($this->votoNoticias->removeElement($votoNoticia)) {
+            // set the owning side to null (unless already changed)
+            if ($votoNoticia->getNoticia() === $this) {
+                $votoNoticia->setNoticia(null);
+            }
+        }
+
+        return $this;
     }
 }

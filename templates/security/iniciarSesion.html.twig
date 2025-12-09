@@ -9,14 +9,23 @@
   <div style="color:red;">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 {% endif %}
 
-<form method="post">
-    <label for="correo">Email:</label>
-    <input type="text" name="correo" value="{{ correo }}" required>
+<form method="post" class="form-login">
+    <h2>Accede a tu cuenta</h2>
 
-    <label for="contrasena">Contraseña:</label>
-    <input type="password" name="contrasena" required>
+    <div class="campo">
+        <label for="correo">Correo o nombre de usuario</label>
+        <input type="text" name="correo" value="{{ correo ?? '' }}" placeholder="Ingresa tu correo o nombre de usuario" required>
+    </div>
 
-    <button type="submit">Ingresar</button>
+    <div class="campo">
+        <label for="contrasena">Contraseña</label>
+        <input type="password" name="contrasena" placeholder="Ingresa tu contraseña" required>
+    </div>
+
+    <div class="acciones">
+        <button type="submit">Ingresar</button>
+        <a href="{{ path('app_registrarse') }}">¿No tenés cuenta? Registrate</a>
+    </div>
 </form>
 
 {% endblock %}
