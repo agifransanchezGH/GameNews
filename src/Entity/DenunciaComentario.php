@@ -12,7 +12,7 @@ class DenunciaComentario
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $id = null; 
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $tipo = null;
@@ -20,15 +20,18 @@ class DenunciaComentario
     #[ORM\Column(type: Types::TEXT)]
     private ?string $descripcion = null;
 
-        #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $fecha = null;
 
-        #[ORM\ManyToOne(inversedBy: 'yes')]
-        #[ORM\JoinColumn(nullable: false)]
-        private ?Usuario $denunciante = null;
+    #[ORM\ManyToOne(targetEntity: Usuario::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Usuario $denunciante = null;
 
-        #[ORM\Column(length: 30, nullable: true)]
-        private ?string $estado = null;
+    #[ORM\Column(length: 30)]
+    private ?string $estado = null;
+
+    #[ORM\ManyToOne(inversedBy: 'denunciaComentarios')]
+    private ?Comentario $comentario = null;
 
 
     public function getId(): ?int
@@ -44,7 +47,6 @@ class DenunciaComentario
     public function setTipo(?string $tipo): static
     {
         $this->tipo = $tipo;
-
         return $this;
     }
 
@@ -91,6 +93,18 @@ class DenunciaComentario
     public function setEstado(?string $estado): static
     {
         $this->estado = $estado;
+
+        return $this;
+    }
+
+    public function getComentario(): ?Comentario
+    {
+        return $this->comentario;
+    }
+
+    public function setComentario(?Comentario $comentario): static
+    {
+        $this->comentario = $comentario;
 
         return $this;
     }

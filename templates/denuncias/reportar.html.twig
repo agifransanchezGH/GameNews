@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Denunciar comentario{% endblock %}
+
+{% block body %}
+<h1>Denunciar comentario</h1>
+
+<form method="post">
+        <legend>Motivo de la denuncia:</legend>
+
+        <label>
+            <input type="radio" name="tipo" value="spam">
+            Spam o contenido comercial
+        </label><br>
+
+        <label>
+            <input type="radio" name="tipo" value="ofensivo">
+            Contenido ofensivo o inapropiado
+        </label><br>
+
+        <label>
+            <input type="radio" name="tipo" value="falso">
+            Información falsa o engañosa
+        </label><br>
+
+        <label>
+            <input type="radio" name="tipo" value="acoso">
+            Acoso o intimidación
+        </label><br>
+
+        <label>
+            <input type="radio" name="tipo" value="otro">
+            Otro motivo
+        </label>
+
+    <label for="descripcion">Detalles adicionales (opcional):</label>
+    <textarea name="descripcion" rows="4" placeholder="Proporciona más información sobre esta denuncia..."></textarea>
+
+    <div class="acciones">
+        <a href="{{ path('app_pagina_noticia', {id: comentario.noticia.id}) }}" class="btn btn-cancelar">Cancelar</a>
+        <button type="submit" class="btn btn-enviar">Enviar denuncia</button>
+    </div>
+</form>
+{% endblock %}

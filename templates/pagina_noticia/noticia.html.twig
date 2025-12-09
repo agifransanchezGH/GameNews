@@ -18,7 +18,7 @@
 
     <!--Bloque para realizar un comentario-->
     {% if app.user %}
-         <h3>Comentarios</h3>
+        <h3>Comentarios</h3>
         <form action="{{ path('agregar_comentario', {id: noticia.id}) }}" method="post">
         <textarea name="contenido" rows="4" required></textarea>
         <button type="submit">Enviar</button>
@@ -27,7 +27,6 @@
         <a href="{{ path('app_iniciar_sesion') }}"><button>iniciar sesión</button></a>
     {% endif %}
     <div>
-   
 </form>
 
 </div>
@@ -48,6 +47,8 @@
                     <a href="{{ path('votar_comentario', {id: comentario.id, valor: 0}) }}">
                         <button>👎{{ comentario.votoComentarios|filter(v => not v.valor)|length }}</button>
                     </a>
+                    <br>
+                    <a href="{{ path('comentario_denunciar', {id: comentario.id}) }}" class="btn btn-warning btn-sm">Reportar</a>
                 <p>
             </div>
         {% endfor %}

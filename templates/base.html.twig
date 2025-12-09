@@ -22,17 +22,19 @@
 						<span class="news">NEWS</span>
 					</h1>
 				</a>
+					<a href="{{ path('app_pagina_principal') }}">Inicio</a>
+					
+					{% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+						<a href="{{ path('admin_dashboard') }}">Administración</a>
+					{% endif %}
 
 				<div style="color: white;">
 					{% if app.user and 'ROLE_USER' in app.user.roles %}
-						<p>Usuario:
-							{{ app.user.nombreUsuario }}</p>
+						{{ app.user.nombreUsuario }}
 					{% elseif app.user and 'ROLE_EDITOR' in app.user.roles %}
-						<p>Editor:
-							{{ app.user.nombreUsuario }}</p>
+						{{ app.user.nombreUsuario }}
 					{% elseif app.user and 'ROLE_ADMIN' in app.user.roles %}
-						<p>Administrador:
-							{{ app.user.nombreUsuario }}</p>
+						{{ app.user.nombreUsuario }}
 					{% endif %}
 
 					{% if app.user %}

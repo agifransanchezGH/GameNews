@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="admin-panel">
+    <h1>Panel de Administración</h1>
+
+    <section class="gestion-contenido">
+        <h2>Gestión de Contenido</h2>
+        <ul>
+            <li>📰 Noticias: {{ noticias|length }} publicadas</li>
+            <li>📂 Categorías: <a href="#">Administrar categorías</a></li>
+
+        </ul>
+    </section>
+
+    <section class="estadisticas">
+        <h2>Estadísticas del Sitio</h2>
+        <div class="filtros">
+            <button>Esta Semana</button>
+            <button>Este Mes</button>
+            <button>Este Año</button>
+        </div>
+        <ul>
+
+        </ul>
+    </section>
+
+    <section class="moderacion">
+        <h2>Moderación</h2>
+        <ul>
+            <li>
+            🚨 <a href="{{ path('admin_denuncias') }}">Denuncias: {{ denunciasPendientes|length }} pendientes de revisar</a>
+                {% if denunciasPendientes|length > 0 %}
+                    <span class="alerta">¡Requiere atención!</span>
+                {% endif %}
+            </li>
+            <li>
+                👥 <a href="{{ path('admin_usuarios') }}">Gestión de Usuarios: {{ usuarios|length }} registrados</a>
+            </li>
+
+        </ul>
+    </section>
+</div>
+{% endblock %}

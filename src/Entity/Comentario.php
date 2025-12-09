@@ -35,9 +35,13 @@ class Comentario
     #[ORM\OneToMany(targetEntity: VotoComentario::class, mappedBy: 'comentario')]
     private Collection $votoComentarios;
 
+    #[ORM\OneToMany(targetEntity: DenunciaComentario::class, mappedBy: 'Comentario')]
+    private Collection $denunciaComentarios;
+
     public function __construct()
     {
         $this->votoComentarios = new ArrayCollection();
+        $this->denunciaComentarios = new ArrayCollection();
     }
 
 
@@ -141,5 +145,35 @@ class Comentario
         $positivos = $this->votoComentarios->filter(fn($v) => $v->getValor() === true)->count();
         $negativos = $this->votoComentarios->filter(fn($v) => $v->getValor() === false)->count();
         return $positivos - $negativos;
+    }
+
+    /**
+     * @return Collection<int, DenunciaComentario>
+     */
+    public function getDenunciaComentarios(): Collection
+    {
+        return $this->denunciaComentarios;
+    }
+
+    public function addDenunciaComentario(DenunciaComentario $denunciaComentario): static
+    {
+        if (!$this->denunciaComentarios->contains($denunciaComentario)) {
+            $this->denunciaComentarios->add($denunciaComentario);
+            $denunciaComentario->setComentario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDenunciaComentario(DenunciaComentario $denunciaComentario): static
+    {
+        if ($this->denunciaComentarios->removeElement($denunciaComentario)) {
+            // set the owning side to null (unless already changed)
+            if ($denunciaComentario->getComentario() === $this) {
+                $denunciaComentario->setComentario(null);
+            }
+        }
+
+        return $this;
     }
 }
