@@ -20,7 +20,7 @@ class VotoNoticia
     private ?Noticia $noticia = null;
 
     #[ORM\Column(type: 'integer')]
-    private ?int $puntuacionTotal = null;
+    private ?int $puntuacion = null;
 
     #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $fecha = null;
@@ -55,14 +55,14 @@ class VotoNoticia
         return $this;
     }
 
-    public function getPuntuacionTotal(): ?int
+    public function getPuntuacion(): ?int
     {
-        return $this->puntuacionTotal;
+        return $this->puntuacion;
     }
 
-    public function setPuntuacionTotal(int $puntuacionTotal): static
+    public function setPuntuacion(int $puntuacion): static
     {
-        $this->puntuacionTotal = $puntuacionTotal;
+        $this->puntuacion = $puntuacion;
         return $this;
     }
 

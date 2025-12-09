@@ -210,4 +210,20 @@ class Noticia
 
         return $this;
     }
+
+    public function getPromedioVotos(): float
+{
+    $votos = $this->votoNoticias;
+
+    if ($votos->isEmpty()) {
+        return 0;
+    }
+
+    $total = 0;
+    foreach ($votos as $voto) {
+        $total += $voto->getPuntuacion(); // o getPuntuacionTotal si no lo renombraste
+    }
+
+    return round($total / count($votos), 1); // promedio con 1 decimal
+}
 }

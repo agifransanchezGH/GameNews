@@ -12,10 +12,18 @@
         <h1>{{ noticia.titulo }}</h1>
         <h2>{{ noticia.subtitulo }}</h2>
         <small>{{ noticia.fechaPublicacion|date('d M Y') }}</small><br>
-        <small>Valoración: ★ {{ noticia.valoracionPromedio }}</small>
         <p> {{ noticia.cuerpo }}</p>
     </div>
-
+    <!--BLoque para votar la noticia-->
+    <form method="post" action="{{ path('noticia_votar', {id: noticia.id}) }}">
+    <label>Califica esta noticia:</label>
+    {% for i in 1..5 %}
+        <input type="radio" name="puntuacion" value="{{ i }}"> {{ i }} ⭐
+    {% endfor %}
+    <button type="submit">Votar</button>
+    </form> 
+    <p>Promedio: {{ noticia.promedioVotos }} / 5</p>
+    
     <!--Bloque para realizar un comentario-->
     {% if app.user %}
         <h3>Comentarios</h3>
@@ -27,7 +35,6 @@
         <a href="{{ path('app_iniciar_sesion') }}"><button>iniciar sesión</button></a>
     {% endif %}
     <div>
-</form>
 
 </div>
     <div>
