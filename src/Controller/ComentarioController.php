@@ -38,11 +38,10 @@ public function agregarComentario(Request $request, EntityManagerInterface $em, 
     return $this->redirectToRoute('app_pagina_noticia', ['id' => $noticia->getId()]);
 }
 
-#[Route('/comentario/{id}/votar/{valor}', name: 'votar_comentario')]
-public function votarComentario(int $id,bool $valor,EntityManagerInterface $em): Response 
+#[Route('/comentario/{id}/votar', name: 'votar_comentario', methods: ['POST'])]
+public function votarComentario(int $id, Request $request, EntityManagerInterface $em): Response
 {
     $usuario = $this->getUser();
-
     if (!$usuario) {
         return $this->redirectToRoute('app_iniciar_sesion');
     }
@@ -51,6 +50,9 @@ public function votarComentario(int $id,bool $valor,EntityManagerInterface $em):
     if (!$comentario) {
         throw $this->createNotFoundException('Comentario no encontrado');
     }
+
+    $valor = (int) $request->request->get('valor'); // "1" o "0"
+    $valor = $valor === 1;
 
     $votoExistente = $em->getRepository(VotoComentario::class)
         ->findOneBy(['usuario' => $usuario, 'comentario' => $comentario]);

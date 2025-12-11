@@ -8,72 +8,72 @@
 		</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
-		<link rel="stylesheet" href="{{ asset('css/estilos.css') }}">
-		{% block stylesheets %}
-		{% endblock %}
-	</head>
-	<body>
-		{% block header %}
-			<div class="logo-container" style="justify-content: space-between;">
-				<a href="{{ path('app_pagina_principal') }}" style="text-decoration: none; display: flex; align-items: center;">
-					<span class="logo-icon">🎮</span>
-					<h1 class="logo-title">
-						<span class="game">GAME</span>
-						<span class="news">NEWS</span>
-					</h1>
-				</a>
+		<link rel="stylesheet" href="{{ asset('css/estilos.css') }}"> {% block stylesheets %}{% endblock %}
+		</head>
+		<body>
+			{% block header %}
+				<div class="logo-container" style="justify-content: space-between;">
+					<a href="{{ path('app_pagina_principal') }}" style="text-decoration: none; display: flex; align-items: center;">
+						<span class="logo-icon">🎮</span>
+						<h1 class="logo-title">
+							<span class="game">GAME</span>
+							<span class="news">NEWS</span>
+						</h1>
+					</a>
 					<a href="{{ path('app_pagina_principal') }}">Inicio</a>
-					
+
 					{% if app.user and 'ROLE_ADMIN' in app.user.roles %}
 						<a href="{{ path('admin_dashboard') }}">Administración</a>
 					{% endif %}
 
-				<div style="color: white;">
-					{% if app.user and 'ROLE_USER' in app.user.roles %}
-						{{ app.user.nombreUsuario }}
-					{% elseif app.user and 'ROLE_EDITOR' in app.user.roles %}
-						{{ app.user.nombreUsuario }}
-					{% elseif app.user and 'ROLE_ADMIN' in app.user.roles %}
-						{{ app.user.nombreUsuario }}
+					{% if app.user and 'ROLE_EDITOR' in app.user.roles %}
+						<a href="{{ path('editor_dashboard') }}">Editor</a>
 					{% endif %}
 
-					{% if app.user %}
-						<a href="{{ path('app_salir') }}">
-							<button>Cerrar Sesión</button>
-						</a>
-					{% else %}
-						<a href="{{ path('app_iniciar_sesion') }}">
-							<button>Iniciar Sesión</button>
-						</a>
-					{% endif %}
+					<div style="color: white;">
+						{% if app.user and 'ROLE_USER' in app.user.roles %}
+							{{ app.user.nombreUsuario }}
+						{% elseif app.user and 'ROLE_EDITOR' in app.user.roles %}
+							{{ app.user.nombreUsuario }}
+						{% elseif app.user and 'ROLE_ADMIN' in app.user.roles %}
+							{{ app.user.nombreUsuario }}
+						{% endif %}
+						{% if app.user %}
+							<a href="{{ path('app_salir') }}">
+								<button>Cerrar Sesión</button>
+							</a>
+						{% else %}
+							<a href="{{ path('app_iniciar_sesion') }}">
+								<button>Iniciar Sesión</button>
+							</a>
+						{% endif %}
+					</div>
 				</div>
-			</div>
-		{% endblock %}
-		
-		{% block body %}{% endblock %}
-		
+			{% endblock %}
 
-		<!--BLoque reutilizable de mensajes flash-->
-		{% for label, mensajes in app.flashes %}
-		{% for mensaje in mensajes %}
-        <div class="alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show" role="alert">
-            {{ mensaje }}
-        </div>
-    	{% endfor %}
-		{% endfor %}
+			{% block body %}{% endblock %}
 
 
+			<!--BLoque reutilizable de mensajes flash-->
+			{% for label, mensajes in app.flashes %}
+				{% for mensaje in mensajes %}
+					<div class="alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show" role="alert">
+						{{ mensaje }}
+					</div>
+				{% endfor %}
+			{% endfor %}
 
-		{% block footer %}
-		<footer class="text-center text-light py-4">
-			<div class="container">
-				<p>&copy; 2025 GameNews. Todas las noticias sobre videojuegos.</p>
-				<p>
-					<a class="text-light me-3">Términos y Condiciones -- Política de Privacidad</a>
-				</p>
-			</div>
-		</footer>
-		{% endblock %}
-		
-	</body>
-</html>
+
+			{% block footer %}
+				<footer class="text-center text-light py-4">
+					<div class="container">
+						<p>&copy; 2025 GameNews. Todas las noticias sobre videojuegos.</p>
+						<p>
+							<a class="text-light me-3">Términos y Condiciones -- Política de Privacidad</a>
+						</p>
+					</div>
+				</footer>
+			{% endblock %}
+
+		</body>
+	</html>

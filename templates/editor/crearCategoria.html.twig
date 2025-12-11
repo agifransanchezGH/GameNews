@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Crear Nueva Categoría
+{% endblock %}
+
+{% block body %}
+	<h1>Crear nueva categoría</h1>
+
+	{% for message in app.flashes('success') %}
+		<div class="alert alert-success">{{ message }}</div>
+	{% endfor %}
+	{% for message in app.flashes('error') %}
+		<div class="alert alert-danger">{{ message }}</div>
+	{% endfor %}
+
+	<form method="post" action="{{ path('categoria_nueva') }}">
+		<div>
+			<label for="nombre">Nombre:</label>
+			<input type="text" id="nombre" name="nombre" required maxlength="100">
+		</div>
+		<div>
+			<label for="descripcion">Descripción:</label>
+			<input type="text" id="descripcion" name="descripcion" required maxlength="150">
+		</div>
+		<button type="submit">Crear categoría</button>
+	</form>
+{% endblock %}
