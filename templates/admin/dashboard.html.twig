@@ -13,7 +13,9 @@
     <section class="admin-bloque gestion-contenido">
         <h2>Gestión de Contenido</h2>
         <ul>
-            <li>📰 Noticias: <strong>{{ noticias|length }}</strong> publicadas</li>
+            <li>📰 Noticias: <strong>{{ noticias|length }}</strong></li>
+            <li>✏️ Noticias en borrador: {{ noticias|filter(n => n.estado == 'borrador')|length }}</li>
+            <li>🔎 Noticias publicadas: {{ noticias|filter(n => n.estado == 'publicado')|length }}</li>
             <li>📂 Categorías: <a href="#">Administrar categorías</a></li>
         </ul>
     </section>

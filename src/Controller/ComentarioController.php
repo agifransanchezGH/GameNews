@@ -38,7 +38,7 @@ public function agregarComentario(Request $request, EntityManagerInterface $em, 
     return $this->redirectToRoute('app_pagina_noticia', ['id' => $noticia->getId()]);
 }
 
-#[Route('/comentario/{id}/votar', name: 'votar_comentario', methods: ['POST'])]
+#[Route('/comentario/{id}/votar', name: 'votar_comentario', methods: ['GET','POST'])]
 public function votarComentario(int $id, Request $request, EntityManagerInterface $em): Response
 {
     $usuario = $this->getUser();
@@ -54,8 +54,7 @@ public function votarComentario(int $id, Request $request, EntityManagerInterfac
     $valor = (int) $request->request->get('valor'); // "1" o "0"
     $valor = $valor === 1;
 
-    $votoExistente = $em->getRepository(VotoComentario::class)
-        ->findOneBy(['usuario' => $usuario, 'comentario' => $comentario]);
+    $votoExistente = $em->getRepository(VotoComentario::class)->findOneBy(['usuario' => $usuario, 'comentario' => $comentario]);
 
     if ($votoExistente) {
         $votoExistente->setValor($valor);

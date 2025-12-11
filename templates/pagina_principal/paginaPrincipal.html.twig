@@ -45,12 +45,14 @@
     <!-- Sección de noticias -->
     <section class="noticias-grid" id="noticias">
         {% for noticia in noticias %}
+        {% if noticia.estado == 'publicado' %}
+            
             <a href="{{ path('app_pagina_noticia', {'id': noticia.id}) }}" class="noticia-card">
                 <article class="noticia-content">
                     <img src="{{ asset('images/' ~ noticia.imagen) }}" alt="{{ noticia.titulo }}" class="noticia-img">
                     <div class="noticia-text">
                         <h5 class="noticia-titulo">{{ noticia.titulo }}</h5>
-                        <p class="noticia-cuerpo">{{ noticia.cuerpo }}</p>
+                        <p class="noticia-cuerpo">{{ noticia.subtitulo }}</p>
                     </div>
                     <div class="noticia-meta">
                         <small class="noticia-fecha">{{ noticia.fechaPublicacion|date('d M Y') }}</small><br>
@@ -61,6 +63,7 @@
                     </div>
                 </article>
             </a>
+            {% endif %}
         {% else %}
             <p class="no-noticias">No hay noticias disponibles.</p>
         {% endfor %}
