@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+
+/* ===== Fondo general ===== */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Orbitron', sans-serif;
+    background: radial-gradient(circle at center, #1a0033, #0d0d0d);
+    color: #f0f0f0;
+}
+
+/* ===== Panel principal ===== */
+.admin-panel {
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 20px;
+    background: #1e1e1e;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(106, 0, 255, 0.4);
+    animation: fadeIn 0.8s ease;
+}
+
+/* ===== Animación ===== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Título principal ===== */
+.admin-titulo {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+    color: #6a00ff;
+    text-shadow: 0 0 10px #6a00ff, 0 0 14px #0077ff;
+}
+
+/* ===== Bloques de sección ===== */
+.admin-bloque {
+    margin-bottom: 40px;
+    padding: 20px;
+    background: #2a2a2a;
+    border-radius: 14px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.4);
+}
+
+.admin-bloque h2 {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    color: #00bfff;
+    text-shadow: 0 0 6px #0077ff;
+}
+
+/* ===== Listas ===== */
+.admin-bloque ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.admin-bloque li {
+    margin-bottom: 12px;
+    font-size: 1rem;
+    color: #ddd;
+}
+
+.admin-bloque a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.admin-bloque a:hover {
+    color: #ffffff;
+    text-shadow: 0 0 6px #ffffff;
+}
+
+/* ===== Botones de filtro ===== */
+.filtros {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.filtros button {
+    background: linear-gradient(135deg, #6a00ff, #0077ff);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.filtros button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(106,0,255,0.6);
+}
+
+/* ===== Alerta ===== */
+.alerta {
+    background: #ff4444;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    margin-left: 10px;
+    font-weight: bold;
+}

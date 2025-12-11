@@ -1,0 +1,96 @@
+/* ===== Pantalla de Gestión de Denuncias ===== */
+body {
+    background: radial-gradient(circle at center, #1a0033, #0d0d0d);
+    color: #f0f0f0;
+    font-family: 'Orbitron', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* ===== Título principal ===== */
+h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin: 40px 0 20px;
+    color: #6a00ff;
+    text-shadow: 0 0 10px #6a00ff, 0 0 14px #0077ff;
+}
+
+/* ===== Tabla de denuncias ===== */
+table {
+    width: 95%;
+    margin: 0 auto 60px;
+    border-collapse: collapse;
+    background: #1e1e1e;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(106,0,255,0.4);
+}
+
+thead {
+    background: linear-gradient(135deg, #6a00ff, #0077ff);
+    color: #fff;
+}
+
+thead th {
+    padding: 14px;
+    text-align: left;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+}
+
+tbody tr {
+    border-bottom: 1px solid #333;
+    transition: background 0.3s ease;
+}
+
+tbody tr:hover {
+    background: rgba(106,0,255,0.1);
+}
+
+td {
+    padding: 12px;
+    font-size: 0.9rem;
+    color: #ddd;
+}
+
+/* ===== Estado ===== */
+td em {
+    color: #aaa;
+    font-style: italic;
+}
+
+td .alerta {
+    background: #ff4444;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    margin-left: 8px;
+    font-weight: bold;
+}
+
+/* ===== Acciones ===== */
+td a {
+    text-decoration: none;
+    font-weight: bold;
+    margin-right: 10px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+td a[href*="resuelta"] {
+    background: #00bfff;
+    color: #fff;
+}
+
+td a[href*="rechazada"] {
+    background: #ff4444;
+    color: #fff;
+}
+
+td a:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(106,0,255,0.6);
+}

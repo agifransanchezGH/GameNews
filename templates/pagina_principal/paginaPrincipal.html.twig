@@ -1,17 +1,25 @@
+{% block title %}GAMENEWS - Página Principal{% endblock %}
+
 {% extends 'base.html.twig' %}
 
-{% block title %}Página Principal{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/pagPrin.css') }}">
+{% endblock %}
 
 {% block body %}
-    <div class="bienvenida-container">
-        <h1>Bienvenido a GAMENEWS</h1>
-        <p>
-            Tu portal de noticias sobre videojuegos. Mantente informado sobre los últimos lanzamientos,
-            análisis, trucos y todo lo que necesitas saber sobre la industria del gaming
-        </p>
-    </div>
+<main class="contenido-principal">
+    <!-- Sección de bienvenida expandida -->
+    <section class="bienvenida-destacada">
+        <div class="bienvenida-texto">
+            <h1 class="bienvenida-titulo">
+                <span class="neon">🎮 GAMENEWS</span><br>
+                <span class="subtitulo">Tu universo gamer en tiempo real</span>
+            </h1>
+            <p class="bienvenida-descripcion">
+                Bienvenido a tu portal de noticias sobre videojuegos. Acá vas a encontrar los últimos lanzamientos, análisis detallados, trucos útiles y todo lo que necesitás para mantenerte al día en el mundo gamer.
+            </p>
 
-    <!-- Bloque para el formulario de búsqueda -->
+            <!-- Bloque para el formulario de búsqueda -->
     <form method="get" action="{{ path('buscar_contenido') }}">
         <input type="text" name="q" placeholder="Buscar..." value="{{ busqueda ?? '' }}">
 
@@ -31,11 +39,14 @@
         <button type="submit">Buscar</button>
     </form>
 
-    <!-- Bloque de contenido para cada noticia -->
-    <div class="noticias-grid">
+    <!-- Título de sección -->
+    <h2 class="seccion-titulo">Últimas Noticias</h2>
+
+    <!-- Sección de noticias -->
+    <section class="noticias-grid" id="noticias">
         {% for noticia in noticias %}
             <a href="{{ path('app_pagina_noticia', {'id': noticia.id}) }}" class="noticia-card">
-                <div class="noticia-content">
+                <article class="noticia-content">
                     <img src="{{ asset('images/' ~ noticia.imagen) }}" alt="{{ noticia.titulo }}" class="noticia-img">
                     <div class="noticia-text">
                         <h5 class="noticia-titulo">{{ noticia.titulo }}</h5>
@@ -48,10 +59,15 @@
                         </small><br>
                         <small class="noticia-valoracion">Valoración: ★ {{ noticia.promedioVotos }}</small>
                     </div>
-                </div>
+                </article>
             </a>
         {% else %}
             <p class="no-noticias">No hay noticias disponibles.</p>
         {% endfor %}
-    </div>
+    </section>
+</main>
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
 {% endblock %}

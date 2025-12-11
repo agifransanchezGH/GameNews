@@ -1,0 +1,193 @@
+/* ===== Importación de fuentes ===== */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+/* ===== Fondo global con animación ===== */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(-45deg, #0d0d0d, #1a0033, #003366, #6600cc);
+    background-size: 400% 400%;
+    animation: backgroundShift 20s ease infinite;
+    color: #f0f0f0;
+}
+
+@keyframes backgroundShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ===== Header ===== */
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 10px 20px;
+    width: 100%;
+    border-bottom: 3px solid #6a00ff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+}
+
+.logo-link {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.logo-title {
+    font-size: 42px;
+    font-weight: bold;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 2px;
+    color: #fff;
+}
+
+.logo-title .game {
+    color: #ffffff;
+    text-shadow: 0 0 8px #6a00ff;
+}
+
+.logo-title .news {
+    color: #6a00ff;
+    text-shadow: 0 0 8px #0077ff;
+}
+
+.logo-icon {
+    font-size: 32px;
+    margin-left: 10px;
+    animation: pulseIcon 2s infinite;
+}
+
+@keyframes pulseIcon {
+    0% { transform: scale(1); color: #6a00ff; }
+    50% { transform: scale(1.2); color: #0077ff; }
+    100% { transform: scale(1); color: #6a00ff; }
+}
+
+/* ===== Navegación ===== */
+.nav-links a {
+    margin: 0 10px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #6a00ff;
+    text-shadow: 0 0 6px #6a00ff;
+}
+
+/* ===== Usuario y botones ===== */
+.user-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-right: 40px; /* separa del borde derecho */
+    margin-left: auto;    /* empuja desde la izquierda */
+    max-width: 300px;     /* controla cuánto se extiende hacia la derecha */
+    justify-content: space-between; /* distribuye usuario y botón */
+}
+
+
+
+
+.user-name {
+    margin-right: 10px;
+    font-weight: 600;
+}
+
+.btn-link {
+    text-decoration: none;
+}
+
+.btn {
+    background: linear-gradient(135deg, #6a00ff, #0077ff);
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(106,0,255,0.6);
+}
+
+/* ===== Footer ===== */
+footer.footer-container {
+    width: 100%;
+    display: block;
+    margin: 0;
+    padding: 20px 0;
+    background: rgba(0,0,0,0.9) !important;
+    border-top: 3px solid #6a00ff !important;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.6);
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+    color: #ccc;
+}
+
+.footer-title {
+    font-size: 22px;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    color: #fff;
+}
+
+.footer-title .game {
+    color: #ffffff;
+    text-shadow: 0 0 6px #6a00ff;
+}
+
+.footer-title .news {
+    color: #6a00ff;
+    text-shadow: 0 0 6px #0077ff;
+}
+
+.footer-title .logo-icon {
+    font-size: 20px;
+    margin-left: 6px;
+    animation: pulseIcon 2s infinite;
+}
+
+.footer-links {
+    display: flex;
+    gap: 15px;
+}
+
+.footer-links a {
+    color: #6a00ff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #ffffff;
+    text-shadow: 0 0 6px #6a00ff;
+}
+
+.footer-copy {
+    font-size: 0.8em;
+    color: #aaa;
+}
+
+/* ===== Flash messages ===== */
+.flash-messages .alert {
+    margin: 10px auto;
+    max-width: 800px;
+    border-radius: 8px;
+    padding: 12px;
+    font-weight: 500;
+}

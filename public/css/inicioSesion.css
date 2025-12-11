@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+
+/* ===== Fondo gamer ===== */
+body.login-page {
+    font-family: 'Orbitron', sans-serif;
+    background: radial-gradient(circle at center, #1a0033, #0d0d0d);
+    background-size: cover;
+    animation: none;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: block;
+}
+
+/* ===== Contenedor flotante centrado ===== */
+.login-wrapper {
+    max-width: 500px;
+    margin: 80px auto 60px; /* separación del header y footer */
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.login-card {
+    background: linear-gradient(135deg, #1e1e1e, #2a0033);
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(106, 0, 255, 0.6);
+    padding: 40px 30px;
+    animation: fadeIn 0.8s ease;
+    backdrop-filter: blur(6px);
+}
+
+/* ===== Animación suave ===== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Título y subtítulo ===== */
+.login-titulo {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    color: #6a00ff;
+    text-shadow: 0 0 10px #6a00ff, 0 0 14px #0077ff;
+}
+
+.login-subtitulo {
+    text-align: center;
+    font-size: 1rem;
+    color: #ccc;
+    margin-bottom: 2rem;
+}
+
+/* ===== Error ===== */
+.login-error {
+    background: #ff4444;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+/* ===== Formulario ===== */
+.form-login .campo {
+    margin-bottom: 1.2rem;
+}
+
+.form-login label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.95rem;
+    color: #aaa;
+}
+
+.form-login input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #6a00ff;
+    border-radius: 10px;
+    background-color: #0d0d0d;
+    color: #fff;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-login input:focus {
+    border-color: #0077ff;
+    box-shadow: 0 0 8px rgba(106,0,255,0.6);
+    outline: none;
+}
+
+/* ===== Botones y enlaces ===== */
+.acciones {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.acciones button {
+    background: linear-gradient(135deg, #6a00ff, #0077ff);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.acciones button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 14px rgba(106,0,255,0.6);
+}
+
+.acciones a {
+    font-size: 0.9rem;
+    color: #6a00ff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.acciones a:hover {
+    color: #0077ff;
+    text-decoration: underline;
+}

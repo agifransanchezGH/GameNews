@@ -1,31 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Iniciar Sesión{% endblock %}
+{% block title %}Iniciar Sesión - GameNews{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/inicioSesion.css') }}">
+{% endblock %}
 
 {% block body %}
-  <h1>Iniciar sesión</h1>
+<body class="login-page">
+    <main class="login-wrapper">
+        <div class="login-card">
+            <h1 class="login-titulo">🎮 Iniciar sesión</h1>
+            <p class="login-subtitulo">Accedé a tu cuenta para votar, comentar y explorar el mundo gamer.</p>
 
-{% if error %}
-  <div style="color:red;">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-{% endif %}
+            {% if error %}
+                <div class="login-error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
 
-<form method="post" class="form-login">
-    <h2>Accede a tu cuenta</h2>
+            <form method="post" class="form-login">
+                <div class="campo">
+                    <label for="correo">Correo</label>
+                    <input type="text" name="correo" value="{{ correo ?? '' }}" placeholder="Ej: gamer@gmail.com" required>
+                </div>
 
-    <div class="campo">
-        <label for="correo">Correo o nombre de usuario</label>
-        <input type="text" name="correo" value="{{ correo ?? '' }}" placeholder="Ingresa tu correo o nombre de usuario" required>
-    </div>
+                <div class="campo">
+                    <label for="contrasena">Contraseña</label>
+                    <input type="password" name="contrasena" placeholder="Tu contraseña secreta" required>
+                </div>
 
-    <div class="campo">
-        <label for="contrasena">Contraseña</label>
-        <input type="password" name="contrasena" placeholder="Ingresa tu contraseña" required>
-    </div>
-
-    <div class="acciones">
-        <button type="submit">Ingresar</button>
-        <a href="{{ path('app_registrarse') }}">¿No tenés cuenta? Registrate</a>
-    </div>
-</form>
-
+                <div class="acciones">
+                    <button type="submit">Ingresar</button>
+                    <a href="{{ path('app_registrarse') }}">¿No tenés cuenta? Registrate</a>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
 {% endblock %}

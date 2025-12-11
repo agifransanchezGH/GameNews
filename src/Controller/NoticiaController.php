@@ -108,7 +108,7 @@ public function buscar(Request $request, EntityManagerInterface $em): Response
 
     $resultados = $qb->getQuery()->getResult();
 
-    return $this->render('principal.html.twig', [
+    return $this->render('paginaPrincipal.html.twig', [
         'noticias' => $resultados,
         'busqueda' => $termino,
     ]);

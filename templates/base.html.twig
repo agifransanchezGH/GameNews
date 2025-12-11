@@ -1,79 +1,74 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title>
-			{% block title %}GAMENEWS
-			{% endblock %}
-		</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
-		<link rel="stylesheet" href="{{ asset('css/estilos.css') }}"> {% block stylesheets %}{% endblock %}
-		</head>
-		<body>
-			{% block header %}
-				<div class="logo-container" style="justify-content: space-between;">
-					<a href="{{ path('app_pagina_principal') }}" style="text-decoration: none; display: flex; align-items: center;">
-						<span class="logo-icon">🎮</span>
-						<h1 class="logo-title">
-							<span class="game">GAME</span>
-							<span class="news">NEWS</span>
-						</h1>
-					</a>
-					<a href="{{ path('app_pagina_principal') }}">Inicio</a>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}GAMENEWS{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-					{% if app.user and 'ROLE_ADMIN' in app.user.roles %}
-						<a href="{{ path('admin_dashboard') }}">Administración</a>
-					{% endif %}
+  <link rel="stylesheet" href="{{ asset('css/base.css') }}">
 
-					{% if app.user and 'ROLE_EDITOR' in app.user.roles %}
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+    {% block header %}
+        <header class="logo-container">
+            <a href="{{ path('app_pagina_principal') }}" class="logo-link">
+                <h1 class="logo-title">
+                    <span class="game">GAME</span>
+                    <span class="news">NEWS</span>
+                    <span class="logo-icon">🎮</span>
+                </h1>
+            </a>
+            <nav class="nav-links">
+                <a href="{{ path('app_pagina_principal') }}">Inicio</a>
+                {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+                    <a href="{{ path('admin_dashboard') }}">Administración</a>
+                {% endif %}
+                
+                {% if app.user and 'ROLE_EDITOR' in app.user.roles %}
 						<a href="{{ path('editor_dashboard') }}">Editor</a>
 					{% endif %}
 
-					<div style="color: white;">
-						{% if app.user and 'ROLE_USER' in app.user.roles %}
-							{{ app.user.nombreUsuario }}
-						{% elseif app.user and 'ROLE_EDITOR' in app.user.roles %}
-							{{ app.user.nombreUsuario }}
-						{% elseif app.user and 'ROLE_ADMIN' in app.user.roles %}
-							{{ app.user.nombreUsuario }}
-						{% endif %}
-						{% if app.user %}
-							<a href="{{ path('app_salir') }}">
-								<button>Cerrar Sesión</button>
-							</a>
-						{% else %}
-							<a href="{{ path('app_iniciar_sesion') }}">
-								<button>Iniciar Sesión</button>
-							</a>
-						{% endif %}
-					</div>
-				</div>
-			{% endblock %}
+            </nav>
+            <div class="user-section">
+                {% if app.user %}
+                    <span class="user-name">{{ app.user.nombreUsuario }}</span>
+                    <a href="{{ path('app_salir') }}" class="btn-link"><button class="btn">Cerrar Sesión</button></a>
+                {% else %}
+                    <a href="{{ path('app_iniciar_sesion') }}" class="btn-link"><button class="btn">Iniciar Sesión</button></a>
+                {% endif %}
+            </div>
+        </header>
+    {% endblock %}
 
-			{% block body %}{% endblock %}
+    {% block body %}{% endblock %}
 
+    {# Mensajes flash reutilizables #}
+    <div class="flash-messages">
+        {% for label, mensajes in app.flashes %}
+            {% for mensaje in mensajes %}
+                <div class="alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show" role="alert">
+                    {{ mensaje }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
 
-			<!--BLoque reutilizable de mensajes flash-->
-			{% for label, mensajes in app.flashes %}
-				{% for mensaje in mensajes %}
-					<div class="alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show" role="alert">
-						{{ mensaje }}
-					</div>
-				{% endfor %}
-			{% endfor %}
-
-
-			{% block footer %}
-				<footer class="text-center text-light py-4">
-					<div class="container">
-						<p>&copy; 2025 GameNews. Todas las noticias sobre videojuegos.</p>
-						<p>
-							<a class="text-light me-3">Términos y Condiciones -- Política de Privacidad</a>
-						</p>
-					</div>
-				</footer>
-			{% endblock %}
-
-		</body>
-	</html>
+{% block footer %}
+    <footer class="footer-container">
+        <div class="footer-content">
+            <p class="footer-title">
+                <span class="game">GAME</span>
+                <span class="news">NEWS</span>
+                <span class="logo-icon">🎮</span>
+            </p>
+            <nav class="footer-links">
+                <a href="#">Términos y Condiciones</a>
+                <a href="#">Política de Privacidad</a>
+            </nav>
+            <p class="footer-copy">&copy; 2025 GameNews. Todas las noticias sobre videojuegos.</p>
+        </div>
+    </footer>
+{% endblock %}
+</body>
+</html>

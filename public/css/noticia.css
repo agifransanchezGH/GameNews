@@ -1,0 +1,249 @@
+/* ===== Fondo general ===== */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #121212;
+    color: #eaeaea;
+    margin: 0;
+    padding: 0;
+}
+
+/* ===== Contenedor principal ===== */
+.noticia-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    background: #1e1e1e;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+    padding: 30px;
+    animation: fadeIn 0.8s ease;
+}
+
+/* ===== Animación de entrada ===== */
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+/* ===== Encabezado de noticia ===== */
+.noticia-header {
+    margin-bottom: 30px;
+}
+
+.noticia-header img {
+    width: 100%;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+    margin-bottom: 20px;
+}
+.noticia-header img:hover {
+    transform: scale(1.03);
+}
+
+.noticia-titulos h1 {
+    font-size: 2.5rem;
+    color: #ffcc00;
+    text-shadow: 2px 2px 8px rgba(255,204,0,0.6);
+    margin-bottom: 10px;
+}
+
+.noticia-titulos h2 {
+    font-size: 1.5rem;
+    color: #00bfff;
+    margin-bottom: 5px;
+}
+
+.noticia-fecha {
+    font-size: 0.9rem;
+    color: #aaa;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.noticia-cuerpo {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #ddd;
+}
+
+/* ===== Votación ===== */
+.votar-noticia {
+    margin-top: 20px;
+    padding: 15px 20px;
+    background: #2a2a2a;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.votar-noticia label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 1rem;
+}
+
+.estrellas {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.estrellas label {
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.votar-noticia button {
+    background: linear-gradient(135deg, #ffcc00, #ff8800);
+    color: #121212;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+.votar-noticia button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 12px #ffcc00;
+}
+
+.promedio-texto {
+    font-size: 0.95rem;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #ffcc00;
+}
+
+.promedio-bar {
+    height: 10px;
+    background: #444;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 6px;
+}
+
+.promedio-fill {
+    height: 100%;
+    background: #ffcc00;
+    width: 0;
+    transition: width 0.8s ease;
+}
+
+
+/* ===== Comentarios ===== */
+.comentarios-section {
+    margin-top: 40px;
+}
+
+.comentarios-section h3 {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+    color: #00bfff;
+}
+
+.form-comentario textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    background: #1a1a1a;
+    color: #fff;
+    resize: vertical;
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.form-comentario button {
+    background: linear-gradient(135deg, #00bfff, #0077ff);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+.form-comentario button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 12px #00bfff;
+}
+
+.comentario-login {
+    margin-bottom: 10px;
+    font-style: italic;
+    color: #ccc;
+}
+
+.btn-login {
+    background: linear-gradient(135deg, #6a00ff, #0077ff);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* ===== Lista de comentarios ===== */
+.comentarios-list {
+    margin-top: 30px;
+}
+
+.comentarios-list h4 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: #ffcc00;
+}
+
+.comentario-card {
+    background: #2a2a2a;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+.comentario-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+}
+
+.comentario-card strong {
+    color: #00bfff;
+    font-size: 1.1rem;
+}
+
+.comentario-actions {
+    margin-top: 10px;
+}
+
+.comentario-actions button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-right: 15px;
+    color: #eaeaea;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+.comentario-actions button:hover {
+    color: #ffcc00;
+    transform: scale(1.2);
+}
+
+.btn-reportar {
+    background: #ff4444;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    margin-top: 10px;
+    display: inline-block;
+    transition: background 0.3s ease;
+}
+.btn-reportar:hover {
+    background: #ff2222;
+}

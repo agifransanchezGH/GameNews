@@ -1,67 +1,80 @@
-
-
-{% block title %}Noticia{% endblock %}
-
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    
-    <div>
-    <div>
-        <img src="{{ asset('images/' ~ noticia.imagen) }}" alt="{{ noticia.titulo }}">
-        <h1>{{ noticia.titulo }}</h1>
-        <h2>{{ noticia.subtitulo }}</h2>
-        <small>{{ noticia.fechaPublicacion|date('d M Y') }}</small><br>
-        <p> {{ noticia.cuerpo }}</p>
-    </div>
-    <!--BLoque para votar la noticia-->
-    <form method="post" action="{{ path('noticia_votar', {id: noticia.id}) }}">
-    <label>Califica esta noticia:</label>
-    {% for i in 1..5 %}
-        <input type="radio" name="puntuacion" value="{{ i }}"> {{ i }} ⭐
-    {% endfor %}
-    <button type="submit">Votar</button>
-    </form> 
-    <p>Promedio: {{ noticia.promedioVotos }} / 5</p>
-    
-    <!--Bloque para realizar un comentario-->
-    {% if app.user %}
-        <h3>Comentarios</h3>
-        <form action="{{ path('agregar_comentario', {id: noticia.id}) }}" method="post">
-        <textarea name="contenido" rows="4" required></textarea>
-        <button type="submit">Enviar</button>
-        </form>
-    {% else %}
-        <p> Usuario no autenticado. Inicia sesion para dejar un comentario.</p>
-        <a href="{{ path('app_iniciar_sesion') }}"><button>iniciar sesión</button></a>
-    {% endif %}
-    <div>
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/noticia.css') }}">
+{% endblock %}
 
-</div>
-    <div>
-    <!--Bloque para mostrar los comentarios (si los hay)-->
-    <h4>Comentarios existentes:</h4>
-        {%if noticia.comentarios is empty %}
+{% block body %}
+<main class="noticia-container">
+
+    <!-- Encabezado de la noticia -->
+    <section class="noticia-header">
+        <img src="{{ asset('images/' ~ noticia.imagen) }}" alt="{{ noticia.titulo }}">
+        <div class="noticia-titulos">
+            <h1>{{ noticia.titulo }}</h1>
+            <h2>{{ noticia.subtitulo }}</h2>
+            <small class="noticia-fecha">{{ noticia.fechaPublicacion|date('d M Y') }}</small>
+        </div>
+        <p class="noticia-cuerpo">{{ noticia.cuerpo }}</p>
+    </section>
+
+    <!-- Votación -->
+    <section class="votar-noticia">
+        <form method="post" action="{{ path('noticia_votar', {id: noticia.id}) }}">
+            <label>Califica esta noticia:</label>
+            <div class="estrellas">
+                {% for i in 1..5 %}
+                    <label>
+                        <input type="radio" name="puntuacion" value="{{ i }}"> {{ i }} ⭐
+                    </label>
+                {% endfor %}
+            </div>
+            <button type="submit">Votar</button>
+        </form>
+        <p class="promedio-texto">Promedio: {{ noticia.promedioVotos }} / 5</p>
+        <div class="promedio-bar">
+            <div class="promedio-fill" style="width: {{ (noticia.promedioVotos/5)*100 }}%;"></div>
+        </div>
+    </section>
+
+    <!-- Comentarios -->
+    <section class="comentarios-section">
+        <h3>Comentarios</h3>
+        {% if app.user %}
+            <form action="{{ path('agregar_comentario', {id: noticia.id}) }}" method="post" class="form-comentario">
+                <textarea name="contenido" rows="4" placeholder="Escribe tu comentario..." required></textarea>
+                <button type="submit">Enviar</button>
+            </form>
+        {% else %}
+            <p class="comentario-login">Usuario no autenticado. Inicia sesión para dejar un comentario.</p>
+            <a href="{{ path('app_iniciar_sesion') }}"><button class="btn-login">Iniciar sesión</button></a>
+        {% endif %}
+    </section>
+
+    <!-- Lista de comentarios -->
+    <section class="comentarios-list">
+        <h4>Comentarios existentes:</h4>
+        {% if noticia.comentarios is empty %}
             <p>No hay comentarios aún. Sé el primero en comentar!</p>
         {% else %}
-        {% for comentario in noticia.comentarios %}
-            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
-                <p><strong>{{ comentario.usuario.nombreUsuario }}</strong></p>
-                <p>{{ comentario.contenido }}</p>
-                <p>
-                    <form method="post" action="{{ path('votar_comentario', {id: comentario.id}) }}" style="display:inline;">
-                    <input type="hidden" name="valor" value="1">
-                    <button type="submit">👍 {{ comentario.votoComentarios|filter(v => v.valor)|length }}</button>
-                </form>
-                <form method="post" action="{{ path('votar_comentario', {id: comentario.id}) }}" style="display:inline;">
-                    <input type="hidden" name="valor" value="0">
-                    <button type="submit">👎 {{ comentario.votoComentarios|filter(v => not v.valor)|length }}</button>
-                </form>
-                    <a href="{{ path('comentario_denunciar', {id: comentario.id}) }}" class="btn btn-warning btn-sm">Reportar</a>
-                <p>
-            </div>
-        {% endfor %}
-    {% endif %}
-    </div>
-</div>
+            {% for comentario in noticia.comentarios %}
+                <div class="comentario-card">
+                    <p><strong>{{ comentario.usuario.nombreUsuario }}</strong></p>
+                    <p>{{ comentario.contenido }}</p>
+                    <div class="comentario-actions">
+                        <a href="{{ path('votar_comentario', {id: comentario.id, valor: 1}) }}">
+                            <button>👍 {{ comentario.votoComentarios|filter(v => v.valor)|length }}</button>
+                        </a>
+                        <a href="{{ path('votar_comentario', {id: comentario.id, valor: 0}) }}">
+                            <button>👎 {{ comentario.votoComentarios|filter(v => not v.valor)|length }}</button>
+                        </a>
+                        <a href="{{ path('comentario_denunciar', {id: comentario.id}) }}" class="btn-reportar">Reportar</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </section>
+
+</main>
 {% endblock %}
