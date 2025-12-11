@@ -1,35 +1,57 @@
-
-
-{% block title %}GAMENEWS-Página Principal{% endblock %}
-
 {% extends 'base.html.twig' %}
+
+{% block title %}Página Principal{% endblock %}
 
 {% block body %}
     <div class="bienvenida-container">
-    <h1>Bienvenido a GAMENEWS</h1>
-    
-    <p>Tu portal de noticias sobre videojuegos. Mantente informado sobre los últimos lanzamientos, análisis, trucos y todo lo que necesitas saber sobre la industria del gaming</p>
+        <h1>Bienvenido a GAMENEWS</h1>
+        <p>
+            Tu portal de noticias sobre videojuegos. Mantente informado sobre los últimos lanzamientos,
+            análisis, trucos y todo lo que necesitas saber sobre la industria del gaming
+        </p>
     </div>
 
-<!--Bloque de contenido para cada noticia-->
-<div class="noticias-grid">
-    {% for noticia in noticias %}
-        <a href="{{ path('app_pagina_noticia', {'id': noticia.id}) }}" class="noticia-card">
-            <div class="noticia-content">
-                <img src="{{ asset('images/' ~ noticia.imagen) }}" alt="{{ noticia.titulo }}" class="noticia-img">
-                <div class="noticia-text">
-                    <h5 class="noticia-titulo">{{ noticia.titulo }}</h5>
-                    <p class="noticia-cuerpo">{{ noticia.cuerpo }}</p>
-                </div>
-                <div class="noticia-meta">
-                    <small class="noticia-fecha">{{ noticia.fechaPublicacion|date('d M Y') }}</small><br>
-                    <small class="noticia-valoracion">Valoración: ★ {{ noticia.promedioVotos }}</small>
-                </div>
-            </div>
-        </a>
-    {% else %}
-        <p class="no-noticias">No hay noticias disponibles.</p>
-    {% endfor %}
-</div>
+    <!-- Bloque para el formulario de búsqueda -->
+    <form method="get" action="{{ path('buscar_contenido') }}">
+        <input type="text" name="q" placeholder="Buscar..." value="{{ busqueda ?? '' }}">
 
+        <select name="categoria">
+            <option value="">Todas las categorías</option>
+            {% for categoria in categorias %}
+                <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Desde:</label>
+        <input type="date" name="desde">
+
+        <label>Hasta:</label>
+        <input type="date" name="hasta">
+
+        <button type="submit">Buscar</button>
+    </form>
+
+    <!-- Bloque de contenido para cada noticia -->
+    <div class="noticias-grid">
+        {% for noticia in noticias %}
+            <a href="{{ path('app_pagina_noticia', {'id': noticia.id}) }}" class="noticia-card">
+                <div class="noticia-content">
+                    <img src="{{ asset('images/' ~ noticia.imagen) }}" alt="{{ noticia.titulo }}" class="noticia-img">
+                    <div class="noticia-text">
+                        <h5 class="noticia-titulo">{{ noticia.titulo }}</h5>
+                        <p class="noticia-cuerpo">{{ noticia.cuerpo }}</p>
+                    </div>
+                    <div class="noticia-meta">
+                        <small class="noticia-fecha">{{ noticia.fechaPublicacion|date('d M Y') }}</small><br>
+                        <small class="noticia-categoria">
+                            Categoría: {{ noticia.categoria ? noticia.categoria.nombre : 'Sin categoría' }}
+                        </small><br>
+                        <small class="noticia-valoracion">Valoración: ★ {{ noticia.promedioVotos }}</small>
+                    </div>
+                </div>
+            </a>
+        {% else %}
+            <p class="no-noticias">No hay noticias disponibles.</p>
+        {% endfor %}
+    </div>
 {% endblock %}

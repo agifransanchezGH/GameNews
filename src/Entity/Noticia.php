@@ -48,6 +48,11 @@ class Noticia
     #[ORM\OneToMany(targetEntity: VotoNoticia::class, mappedBy: 'noticia')]
     private Collection $votoNoticias;
 
+    #[ORM\ManyToOne(targetEntity: Categoria::class)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    private ?Categoria $categoria = null;
+
+
     public function __construct()
     {
         $this->comentarios = new ArrayCollection();
@@ -226,4 +231,17 @@ class Noticia
 
     return round($total / count($votos), 1); // promedio con 1 decimal
 }
+
+public function getCategoria(): ?Categoria
+{
+    return $this->categoria;
+}
+
+public function setCategoria(?Categoria $categoria): static
+{
+    $this->categoria = $categoria;
+    return $this;
+}
+
+
 }

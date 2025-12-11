@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\NoticiaRepository;
 use App\Repository\VotoNoticiaRepository;
 use App\Entity\VotoNoticia;
+use App\Entity\Noticia;
 
 class NoticiaController extends AbstractController
 {
@@ -69,4 +70,47 @@ public function votar(int $id, Request $request, NoticiaRepository $noticiaRepo,
     return $this->redirectToRoute('app_pagina_noticia', ['id' => $id]);
 }
 
+#[Route('/buscar', name: 'buscar_contenido')]
+public function buscar(Request $request, EntityManagerInterface $em): Response
+{
+    $termino = $request->query->get('q'); // término de búsqueda
+    $categoriaId = $request->query->get('categoria'); // filtro por categoría
+    $fechaDesde = $request->query->get('desde');
+    $fechaHasta = $request->query->get('hasta');
+
+    // Validaciones de RN1 y RN2
+    if ($termino && (strlen($termino) > 20 || !ctype_alnum(str_replace(' ', '', $termino)))) {
+        $this->addFlash('error', 'El término de búsqueda debe ser alfanumérico y de máximo 20 caracteres.');
+        return $this->redirectToRoute('app_pagina_principal');
+    }
+
+    $qb = $em->getRepository(Noticia::class)->createQueryBuilder('n');
+
+    if ($termino) {
+        $qb->andWhere('n.titulo LIKE :termino OR n.subtitulo LIKE :termino OR n.cuerpo LIKE :termino')
+           ->setParameter('termino', '%'.$termino.'%');
+    }
+
+    if ($categoriaId) {
+        $qb->andWhere('n.categoria = :cat')
+           ->setParameter('cat', $categoriaId);
+    }
+
+    if ($fechaDesde) {
+        $qb->andWhere('n.fechaPublicacion >= :desde')
+           ->setParameter('desde', new \DateTime($fechaDesde));
+    }
+
+    if ($fechaHasta) {
+        $qb->andWhere('n.fechaPublicacion <= :hasta')
+           ->setParameter('hasta', new \DateTime($fechaHasta));
+    }
+
+    $resultados = $qb->getQuery()->getResult();
+
+    return $this->render('principal.html.twig', [
+        'noticias' => $resultados,
+        'busqueda' => $termino,
+    ]);
+}
 }

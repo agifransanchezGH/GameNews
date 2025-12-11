@@ -12,7 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminDenunciaController extends AbstractController
 {
     #[Route('/', name: 'admin_denuncias')]
-    public function index(DenunciaComentarioRepository $repo): Response {
+    public function index(DenunciaComentarioRepository $repo): Response
+    {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $denuncias = $repo->findBy([], ['fecha' => 'DESC']);
@@ -23,7 +24,8 @@ class AdminDenunciaController extends AbstractController
     }
 
     #[Route('/{id}/estado/{estado}', name: 'admin_denuncia_estado')]
-    public function cambiarEstado(int $id,string $estado,DenunciaComentarioRepository $repo,EntityManagerInterface $em): Response {
+    public function cambiarEstado(int $id, string $estado, DenunciaComentarioRepository $repo, EntityManagerInterface $em): Response
+    {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $denuncia = $repo->find($id);

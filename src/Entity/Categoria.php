@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\CategoriaRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: CategoriaRepository::class)]
 class Categoria
@@ -19,6 +21,18 @@ class Categoria
     #[ORM\Column(length: 150)]
     private ?string $descripcion = null;
 
+    #[ORM\OneToMany(mappedBy: 'categoria', targetEntity: Noticia::class)]
+    private Collection $noticias;
+
+    public function __construct()
+    {
+    $this->noticias = new ArrayCollection();
+    }
+
+public function getNoticias(): Collection
+    {
+        return $this->noticias;
+    }
     public function getId(): ?int
     {
         return $this->id;

@@ -7,6 +7,7 @@ use App\Repository\DenunciaComentarioRepository;
 use App\Repository\ComentarioRepository;
 use App\Repository\NoticiaRepository;
 use App\Repository\UsuarioRepository;
+
 class AdminController extends AbstractController 
 {
 #[Route('/admin/dashboard', name: 'admin_dashboard')]
