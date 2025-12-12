@@ -1,39 +1,57 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Iniciar Sesión - GameNews{% endblock %}
+{% block title %}Iniciar Sesión - GameNews
+{% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/inicioSesion.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/inicioSesion.css') }}">
 {% endblock %}
 
 {% block body %}
-<body class="login-page">
-    <main class="login-wrapper">
-        <div class="login-card">
-            <h1 class="login-titulo">🎮 Iniciar sesión</h1>
-            <p class="login-subtitulo">Accedé a tu cuenta para votar, comentar y explorar el mundo gamer.</p>
+	<body class="login-page">
+		<main class="login-wrapper">
+			<div class="login-card">
+				<h1 class="login-titulo">🎮 Iniciar sesión</h1>
+				<p class="login-subtitulo">Accedé a tu cuenta para votar, comentar y explorar el mundo gamer.</p>
 
-            {% if error %}
-                <div class="login-error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
+				{% if error %}
+					<div class="login-error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+				{% endif %}
 
-            <form method="post" class="form-login">
-                <div class="campo">
-                    <label for="correo">Correo</label>
-                    <input type="text" name="correo" value="{{ correo ?? '' }}" placeholder="Ej: gamer@gmail.com" required>
-                </div>
+				<form method="post" class="form-login">
+					<div class="campo">
+						<label for="correo">Correo</label>
+						<input type="text" name="correo" value="{{ correo ?? '' }}" placeholder="Ej: gamer@gmail.com" required>
+					</div>
 
-                <div class="campo">
-                    <label for="contrasena">Contraseña</label>
-                    <input type="password" name="contrasena" placeholder="Tu contraseña secreta" required>
-                </div>
+					<div class="campo">
+						<label for="contrasena">Contraseña</label>
+						<input type="password" name="contrasena" placeholder="Tu contraseña secreta" required>
+					</div>
 
-                <div class="acciones">
-                    <button type="submit">Ingresar</button>
-                    <a href="{{ path('app_registrarse') }}">¿No tenés cuenta? Registrate</a>
-                </div>
-            </form>
-        </div>
-    </main>
-</body>
-{% endblock %}
+					<div class="acciones">
+						<button type="submit">Ingresar</button>
+						<a href="{{ path('app_registrarse') }}">¿No tenés cuenta? Registrate</a>
+					</div>
+				</form>
+			</div>
+			Cuentas creadas para probar:<br>
+			<table>
+				<thead>
+					<tr>
+						<th>Correo</th>
+						<th>Contrasña</th>
+					</tr>
+				</thead>
+			</tbody>
+			<tr>
+				<td>admin@gamenews.com</td>
+				<td>123</td>
+			</tr>
+			<td>editor@gamenews.com</td>
+			<td>123</td>
+		</tr>
+		<td>usuario@gamenews.com</td>
+		<td>123</td>
+	</body>
+</tr></tbody></table></main></body>{% endblock %}

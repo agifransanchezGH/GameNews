@@ -1,0 +1,17 @@
+<section class="admin-bloque estadisticas">
+    <h2>Estadísticas del Sitio</h2>
+    <div class="filtros">
+        <a href="{{ path('app_estadisticas', { periodo: 'week' }) }}"><button>Esta Semana</button></a>
+        <a href="{{ path('app_estadisticas', { periodo: 'month' }) }}"><button>Este Mes</button></a>
+        <a href="{{ path('app_estadisticas', { periodo: 'year' }) }}"><button>Este Año</button></a>
+    </div>
+
+    {% if estadisticas is defined %}
+        <ul>
+            <li>📰 Noticias creadas: {{ estadisticas.noticias ?? 0 }}</li>
+            <li>💬 Comentarios publicados: {{ estadisticas.comentarios ?? 0 }}</li>
+        </ul>
+    {% else %}
+        <p>No se han cargado estadísticas.</p>
+    {% endif %}
+</section>
