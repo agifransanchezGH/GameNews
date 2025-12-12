@@ -52,6 +52,7 @@ class RegistrarseController extends AbstractController
         $usuario->setNombreUsuario($nombreUsuario);
         $usuario->setContraseña($passwordHasher->hashPassword($usuario, $password));
         $usuario->setRol('ROLE_USER');
+        $usuario->setEstado(true);
 
         $em->persist($usuario);
         $em->flush();

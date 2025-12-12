@@ -9,18 +9,28 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class IniciarSesionController extends AbstractController
 {
-    #[Route('/login', name: 'app_iniciar_sesion')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
-    {
-        if ($this->getUser()->getEstado() === true){
-            return $this->redirectToRoute('inicio');
+#[Route('/login', name: 'app_iniciar_sesion')]
+public function login(AuthenticationUtils $authenticationUtils): Response
+{
+    $correo = $authenticationUtils->getLastUsername();
+    $error = $authenticationUtils->getLastAuthenticationError();
+
+    $usuario = $this->getUser();
+
+    if ($usuario) {
+        if ($usuario) {
+            return $this->redirectToRoute('app_pagina_princiapal');
         } else {
             $this->addFlash('error', 'Su cuenta ha sido suspendida. Contacte con el administrador para más información.');
             return $this->redirectToRoute('app_salir');
         }
-        
-        return $this->render('security/iniciarSesion.html.twig', []);
     }
+
+    return $this->render('security/iniciarSesion.html.twig', [
+        'correo' => $correo,
+        'error' => $error,
+    ]);
+}
 
     #[Route('/salir', name: 'app_salir')]
     public function logout(): void

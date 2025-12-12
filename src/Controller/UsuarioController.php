@@ -24,7 +24,7 @@ class UsuarioController extends AbstractController
 
     //Metodo que renderiza la template para editar un usuario
     #[Route('/admin/usuario/{id}/editar', name: 'usuario_editar')]
-    public function editar(int $id, Request $request, EntityManagerInterface $em): Response
+    public function editar(int $id, EntityManagerInterface $em): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $usuario = $em->getRepository(Usuario::class)->find($id);

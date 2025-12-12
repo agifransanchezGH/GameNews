@@ -18,6 +18,25 @@ class PaginaPrincipalController extends AbstractController
         $noticias = $noticiaManager->getNoticias();
         $categorias = $categoriaRepository->findAll();
 
+        $usuario = $this->getUser();
+
+        // Comprueba si hay una sesion iniciada, en caso de que no, permite navegar como lector, de lo contrario verifica el estado de la cuenta
+        if ($usuario === null) {
+            return $this->render('pagina_principal/paginaPrincipal.html.twig', [
+                'controller_name' => 'PaginaPrincipalController',
+                'noticias' => $noticias,
+                'categorias' => $categorias,
+            ]);
+        }else{
+        // Verificación de estado de cuenta
+        // getEstado() devuelve true si la cuenta está activa, false si está suspendida. Marca error pero funciona
+        if ($usuario && !$usuario->getEstado()) {
+            $this->addFlash('error', 'Tu cuenta está suspendida. Puedes navegar como lector sin iniciar sesión.');
+            // Cierra la sesion para que quede como lector. Este get es parte del AbtractController
+            $this->container->get('security.token_storage')->setToken(null);
+        }
+        }
+
         return $this->render('pagina_principal/paginaPrincipal.html.twig', [
             'controller_name' => 'PaginaPrincipalController',
             'noticias' => $noticias,
@@ -33,27 +52,26 @@ class PaginaPrincipalController extends AbstractController
         $desde = $request->query->get('desde');
         $hasta = $request->query->get('hasta');
 
-        // Construir filtros dinámicos
         $qb = $noticiaRepository->createQueryBuilder('n');
 
         if ($q) {
             $qb->andWhere('n.titulo LIKE :q OR n.cuerpo LIKE :q')
-               ->setParameter('q', '%' . $q . '%');
+                ->setParameter('q', '%' . $q . '%');
         }
 
         if ($categoriaId) {
             $qb->andWhere('n.categoria = :categoria')
-               ->setParameter('categoria', $categoriaId);
+                ->setParameter('categoria', $categoriaId);
         }
 
         if ($desde) {
             $qb->andWhere('n.fechaPublicacion >= :desde')
-               ->setParameter('desde', new \DateTimeImmutable($desde));
+                ->setParameter('desde', new \DateTimeImmutable($desde));
         }
 
         if ($hasta) {
             $qb->andWhere('n.fechaPublicacion <= :hasta')
-               ->setParameter('hasta', new \DateTimeImmutable($hasta));
+                ->setParameter('hasta', new \DateTimeImmutable($hasta));
         }
 
         $noticias = $qb->getQuery()->getResult();
@@ -65,5 +83,4 @@ class PaginaPrincipalController extends AbstractController
             'busqueda' => $q,
         ]);
     }
-
 }
