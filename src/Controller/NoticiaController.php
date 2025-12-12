@@ -15,6 +15,7 @@ use App\Entity\Categoria;
 use App\Entity\VotoNoticia;
 use App\Entity\Noticia;
 
+
 class NoticiaController extends AbstractController
 {
     #[Route('/noticia/{id}', name: 'app_pagina_noticia')]
@@ -123,18 +124,20 @@ class NoticiaController extends AbstractController
     //Metodo para renderizar la template con el formulario para crear una nueva noticia
     #[Route('/editor/noticia/nueva', name: 'noticia_nueva', methods: ['GET'])]
     public function nueva(CategoriaRepository $categoriaRepository): Response
-    {
-    $categorias = $categoriaRepository->findAll();
+    {   
+        $this->denyAccessUnlessGranted('ROLE_EDITOR');
+        $categorias = $categoriaRepository->findAll();
 
-    return $this->render('editor/crearNoticias.html.twig', [
-        'categorias' => $categorias,
-    ]);
+        return $this->render('editor/crearNoticias.html.twig', [
+            'categorias' => $categorias,
+        ]);
     }
 
     //Metodo que maneja la logica de creacion de una noticia
     #[Route('/editor/noticia/crear', name: 'noticia_crear', methods: ['GET', 'POST'])]
     public function crearNoticia(Request $request, EntityManagerInterface $em): Response
-    {
+    {   
+        $this->denyAccessUnlessGranted('ROLE_EDITOR');
         $titulo = $request->request->get('titulo');
         $subtitulo = $request->request->get('subtitulo');
         $cuerpo = $request->request->get('cuerpo');
@@ -161,33 +164,67 @@ class NoticiaController extends AbstractController
 
         $em->persist($noticia);
         $em->flush();
-
-        return $this->redirectToRoute('app_pagina_principal');
+        $this->addFlash('success', 'La noticia fue creada correctamente');
+        return $this->redirectToRoute('editor_dashboard');
     }
 
-    #[Route('/editor/noticia/{id}/editar', name: 'noticia_editar', methods: ['POST'])]
-    public function editar(int $id, Request $request, EntityManagerInterface $em): Response
+    #[Route('/editor/noticia/{id}/editar', name: 'noticia_editar', methods: ['GET', 'POST'])]
+    public function editar(int $id, Request $request, EntityManagerInterface $em, CategoriaRepository $categoriaRepo): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_EDITOR');
+        $noticia = $em->getRepository(Noticia::class)->find($id);
+        
+        if (!$noticia) {
+            throw $this->createNotFoundException('Noticia no encontrada');
+        }
+
+        if ($request->isMethod('POST')) {
+            $titulo = $request->request->get('titulo');
+            $subtitulo = $request->request->get('subtitulo');
+            $cuerpo = $request->request->get('cuerpo');
+            $imagen = $request->request->get('imagen');
+            $estado = $request->request->get('estado');
+            $categoriaId = $request->request->get('categoria');
+
+            $categoria = $categoriaId ? $categoriaRepo->find((int)$categoriaId) : null;
+
+            $noticia->setTitulo($titulo);
+            $noticia->setSubtitulo($subtitulo);
+            $noticia->setCuerpo($cuerpo);
+            if ($imagen) {
+                $noticia->setImagen($imagen);
+            }
+            $noticia->setEstado($estado);
+            $noticia->setCategoria($categoria);
+
+            $em->flush();
+
+            $this->addFlash('success', 'Noticia actualizada correctamente');
+            return $this->redirectToRoute('editor_dashboard');
+        }
+
+        $categorias = $categoriaRepo->findAll();
+
+        return $this->render('editor/editarNoticia.html.twig', [
+            'noticia' => $noticia,
+            'categorias' => $categorias,
+        ]);
+    }
+
+    #[Route('/editor/noticia/{id}/eliminar', name: 'noticia_eliminar', methods: ['POST'])]
+    public function eliminar(int $id, EntityManagerInterface $em): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_EDITOR');
         $noticia = $em->getRepository(Noticia::class)->find($id);
 
         if (!$noticia) {
             throw $this->createNotFoundException('Noticia no encontrada');
         }
 
-        $titulo = $request->request->get('titulo');
-        $cuerpo = $request->request->get('cuerpo');
-        $imagen = $request->request->get('imagen');
-        $categoriaId = $request->request->get('categoria');
-
-        $categoria = $em->getRepository(Categoria::class)->find($categoriaId);
-
-        $noticia->setTitulo($titulo);
-        $noticia->setCuerpo($cuerpo);
-        $noticia->setImagen($imagen);
-        $noticia->setCategoria($categoria);
-
+        $em->remove($noticia);
         $em->flush();
 
-        return $this->redirectToRoute('app_pagina_principal');
+        $this->addFlash('success', 'La noticia fue eliminada correctamente');
+        return $this->redirectToRoute('editor_dashboard');
     }
 }

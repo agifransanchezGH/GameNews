@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<h1>Editar Noticia</h1>
+
+	<form method="post" action="{{ noticia is defined ? path('noticia_editar', {'id': noticia.id}) : path('noticia_crear') }}">
+		<label>Título:</label>
+		<input type="text" name="titulo" value="{{ noticia.titulo ?? '' }}">
+
+		<label>Subtítulo:</label>
+		<input type="text" name="subtitulo" value="{{ noticia.subtitulo ?? '' }}">
+
+		<label>Cuerpo:</label>
+		<textarea name="cuerpo">{{ noticia.cuerpo ?? '' }}</textarea>
+
+		<label>Imagen:</label>
+		<input type="text" name="imagen" value="{{ noticia.imagen ?? '' }}">
+
+		<label>Categoría:</label>
+		<select name="categoria">
+			{% for categoria in categorias %}
+				<option value="{{ categoria.id }}" {% if noticia is defined and noticia.categoria and noticia.categoria.id == categoria.id %} selected {% endif %}>
+					{{ categoria.nombre }}
+				</option>
+			{% endfor %}
+		</select>
+		<label>Estado:</label>
+		<select name="estado">
+			<option value="borrador" {% if noticia is defined and noticia.estado == 'borrador' %} selected {% endif %}>
+				Borrador
+			</option>
+			<option value="publicado" {% if noticia is defined and noticia.estado == 'publicado' %} selected {% endif %}>
+				Publicado
+			</option>
+		</select>
+		<button type="submit">Guardar</button>
+	</form>
+{% endblock %}

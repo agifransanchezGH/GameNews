@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Usuario{% endblock %}
+
+{% block body %}
+<h1>Editar Usuario</h1>
+
+{# Mensajes flash #}
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">{{ message }}</div>
+{% endfor %}
+{% for message in app.flashes('error') %}
+    <div class="alert alert-danger">{{ message }}</div>
+{% endfor %}
+
+<form method="post" action="{{ path('usuario_actualizar', {id: usuario.id}) }}">
+    usuario ID: {{ usuario.id }}<br>
+    correo: {{ usuario.correo }}<br>
+    nombre de usuario: {{ usuario.nombreUsuario }}<br>
+
+    <div class="mb-3">
+        <label for="rol" class="form-label">Rol</label>
+        <select id="rol" name="rol" class="form-select">
+            <option value="ROLE_USER" {% if usuario.rol == 'ROLE_USER' %}selected{% endif %}>Usuario</option>
+            <option value="ROLE_EDITOR" {% if usuario.rol == 'ROLE_EDITOR' %}selected{% endif %}>Editor</option>
+            <option value="ROLE_ADMIN" {% if usuario.rol == 'ROLE_ADMIN' %}selected{% endif %}>Administrador</option>
+        </select>
+    </div>
+
+    <div class="mb-3 form-check">
+        <input type="radio" id="activo" name="activo" class="form-check-input" value="1" {% if usuario.estado %}checked{% endif %}>
+        <label for="activo" class="form-check-label">Activo</label>
+    </div>
+    <div class="mb-3 form-check">
+        <input type="radio" id="suspendido" name="activo" class="form-check-input" value="0">
+        <label for="suspendido" class="form-check-label">Suspendido</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+    <a href="{{ path('usuarios_listar') }}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

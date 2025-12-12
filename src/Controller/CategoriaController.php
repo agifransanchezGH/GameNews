@@ -13,7 +13,8 @@ class CategoriaController extends AbstractController
 {
     #[Route('/editor/categorias', name: 'categoria_listar')]
     public function listar(EntityManagerInterface $em)
-    {
+    {   
+        $this->denyAccessUnlessGranted('ROLE_EDITOR');
         $categorias = $em->getRepository(Categoria::class)->findAll();
         return $this->render('editor/categorias.html.twig', [
             'categorias' => $categorias,
@@ -23,6 +24,7 @@ class CategoriaController extends AbstractController
     #[Route('/editor/categorias/nueva', name: 'categoria_nueva')]
 public function nueva(Request $request, EntityManagerInterface $em): Response
 {
+    $this->denyAccessUnlessGranted('ROLE_EDITOR');
     if ($request->isMethod('POST')) {
         $nombre = $request->request->get('nombre');
         $descripcion = $request->request->get('descripcion');
@@ -48,7 +50,8 @@ public function nueva(Request $request, EntityManagerInterface $em): Response
 
     #[Route('/editor/categorias/eliminar/{id}', name: 'categoria_eliminar')]
     public function eliminar(EntityManagerInterface $em, int $id)
-    {
+    {   
+        $this->denyAccessUnlessGranted('ROLE_EDITOR');
         $categoria = $em->getRepository(Categoria::class)->find($id);
         if ($categoria) {
             $em->remove($categoria);

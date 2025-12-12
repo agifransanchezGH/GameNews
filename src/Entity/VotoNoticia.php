@@ -15,8 +15,9 @@ class VotoNoticia
 
     #[ORM\ManyToOne(inversedBy: 'votoNoticias')]
     private ?Usuario $usuario = null;
-
-    #[ORM\ManyToOne(inversedBy: 'votoNoticias')]
+    
+    #[ORM\ManyToOne(targetEntity: Noticia::class, inversedBy: 'votos')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Noticia $noticia = null;
 
     #[ORM\Column(type: 'integer')]

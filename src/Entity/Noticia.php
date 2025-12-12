@@ -38,14 +38,13 @@ class Noticia
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imagen = null;
     
-    #[ORM\OneToMany(targetEntity: Comentario::class, mappedBy: 'Noticia', orphanRemoval: true)]
-    
+    #[ORM\OneToMany(targetEntity: Comentario::class, mappedBy: 'Noticia', orphanRemoval: true, cascade: ['remove'])]
     private Collection $comentarios;
 
     #[ORM\OneToMany(targetEntity: Comentario::class, mappedBy: 'noticia')]
     private Collection $comentario;
 
-    #[ORM\OneToMany(targetEntity: VotoNoticia::class, mappedBy: 'noticia')]
+    #[ORM\OneToMany(targetEntity: VotoNoticia::class, mappedBy: 'noticia', cascade: ['remove'], orphanRemoval: true)]
     private Collection $votoNoticias;
 
     #[ORM\ManyToOne(targetEntity: Categoria::class)]

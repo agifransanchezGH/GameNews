@@ -25,16 +25,16 @@ class Comentario
     private ?string $estadoModeracion = null;
     
     #[ORM\ManyToOne(inversedBy: 'comentarios')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Noticia $Noticia = null;
 
     #[ORM\ManyToOne(inversedBy: 'comentario')]
     private ?Usuario $usuario = null;
 
-    #[ORM\OneToMany(targetEntity: VotoComentario::class, mappedBy: 'comentario')]
+    #[ORM\OneToMany(targetEntity: VotoComentario::class, mappedBy: 'comentario', cascade: ['remove'], orphanRemoval: true)]
     private Collection $votoComentarios;
 
-    #[ORM\OneToMany(targetEntity: DenunciaComentario::class, mappedBy: 'Comentario')]
+    #[ORM\OneToMany(targetEntity: DenunciaComentario::class, mappedBy: 'comentario', cascade: ['remove'], orphanRemoval: true)]
     private Collection $denunciaComentarios;
 
     public function __construct()

@@ -1,12 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-Panel de Editor
+	Panel de Editor
 {% endblock %}
 
 {% block body %}
-
 	<h1>Panel del Editor</h1>
+
+	{% for message in app.flashes('success') %}
+    <div class="alert alert-success">{{ message }}</div>
+	{% endfor %}
+
 	<div class="acciones">
 		<a href="{{ path('noticia_nueva') }}" class="btn btn-success">➕ Crear nueva noticia</a>
 		<a href="{{ path('categoria_listar') }}" class="btn btn-info">📂 Gestionar categorías</a>
@@ -32,8 +36,11 @@ Panel de Editor
 					<td>{{ noticia.estado }}</td>
 					<td>{{ noticia.fechaPublicacion|date('d/m/Y') }}</td>
 					<td>
-						<p>✏️ Editar</p>
-						<p>🗑️ Eliminar</p>
+						<a href="{{ path('noticia_editar', {'id': noticia.id}) }}">✏️ Editar</a>
+						<form method="post" action="{{ path('noticia_eliminar', {'id': noticia.id}) }}" onsubmit="return confirm('¿Seguro que quieres eliminar esta noticia?');">
+							<button type="submit">🗑️ Eliminar</button>
+						</form>
+
 					</td>
 				</tr>
 			{% else %}

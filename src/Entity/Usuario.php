@@ -29,6 +29,9 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 100)]
     private ?string $rol = null;
 
+    #[ORM\Column(type: 'boolean', options: ['default' => true])]
+    private ?bool $estado = null;
+
     #[ORM\OneToMany(targetEntity: Comentario::class, mappedBy: 'usuario')]
     private Collection $comentario;
 
@@ -102,6 +105,17 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getEstado(): ?bool
+    {
+        return $this->estado;
+    }
+
+    public function setEstado(bool $estado): static
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
     //Esto se creo automaticamente por symfony, son los metodos de UserInterface
 
     // UserInterface methods

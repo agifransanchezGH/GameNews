@@ -12,15 +12,14 @@ class IniciarSesionController extends AbstractController
     #[Route('/login', name: 'app_iniciar_sesion')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
+        if ($this->getUser()->getEstado() === true){
+            return $this->redirectToRoute('inicio');
+        } else {
+            $this->addFlash('error', 'Su cuenta ha sido suspendida. Contacte con el administrador para más información.');
+            return $this->redirectToRoute('app_salir');
+        }
         
-        $correo = $authenticationUtils->getLastUsername();
-        $error = $authenticationUtils->getLastAuthenticationError();
-        
-        return $this->render('security/iniciarSesion.html.twig', [
-            'correo' => $correo,
-            'error' => $error,
-            
-        ]);
+        return $this->render('security/iniciarSesion.html.twig', []);
     }
 
     #[Route('/salir', name: 'app_salir')]

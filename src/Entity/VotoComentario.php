@@ -18,12 +18,11 @@ class VotoComentario
     private ?Usuario $usuario = null;
 
     #[ORM\ManyToOne(targetEntity: Comentario::class, inversedBy: 'votos')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Comentario $comentario = null;
 
-
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private ?bool $valor = null; 
+    private ?bool $valor = null;
 
 
     public function getId(): ?int

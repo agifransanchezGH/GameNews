@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>{{ noticia is defined ? 'Editar Noticia' : 'Crear Noticia' }}</h1>
+    <h1>Crear Noticia</h1>
 
     <form method="post" action="{{ noticia is defined ? path('noticia_editar', {'id': noticia.id}) : path('noticia_crear') }}">
         <label>Título:</label>
