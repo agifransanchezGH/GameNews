@@ -1,42 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gestión de Categorías
+{% block title %}Gestión de Categorías{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/editor/categorias.css') }}">
 {% endblock %}
 
 {% block body %}
-	<h1>Gestión de Categorías</h1>
-	<!-- Vinculo para crear categoría rápida -->
-	<p>
-		<a href="{{ path('categoria_nueva') }}" class="btn btn-success">
-			➕Crear categoría
-		</a>
-	</p>
+<main class="categorias-wrapper">
+    <h1 class="categorias-titulo">📂 Gestión de Categorías</h1>
 
-	<!--Bloque para listar categorias-->
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Nombre</th>
-				<th>Descripción</th>
-				<th>Acciones</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for categoria in categorias %}
-				<tr>
-					<td>{{ categoria.nombre }}</td>
-					<td>{{ categoria.descripcion }}</td>
-					<td>
-						<a href="{{ path('categoria_eliminar', {id: categoria.id}) }}" class="btn btn-danger btn-sm">
-							🗑️ Eliminar
-						</a>
-					</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="3">No hay categorías creadas aún.</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+    <!-- Vinculo para crear categoría rápida -->
+    <p class="crear-categoria">
+        <a href="{{ path('categoria_nueva') }}" class="btn btn-crear">
+            ➕ Crear categoría
+        </a>
+    </p>
+
+    <!-- Bloque para listar categorias -->
+    <section class="listado-categorias">
+        <table class="tabla-categorias">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for categoria in categorias %}
+                    <tr>
+                        <td>{{ categoria.nombre }}</td>
+                        <td>{{ categoria.descripcion }}</td>
+                        <td>
+                            <a href="{{ path('categoria_eliminar', {id: categoria.id}) }}" class="btn btn-eliminar">
+                                🗑️ Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">No hay categorías creadas aún.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</main>
 {% endblock %}

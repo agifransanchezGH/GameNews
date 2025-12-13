@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+
+/* ===== Fondo gamer ===== */
+body {
+    font-family: 'Orbitron', sans-serif;
+    background: radial-gradient(circle at center, #0d0d0d, #1a0033);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    color: #f0f0f0;
+}
+
+/* ===== Wrapper ===== */
+.categorias-wrapper {
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 20px;
+}
+
+/* ===== Título ===== */
+.categorias-titulo {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #6a00ff;
+    text-shadow: 0 0 10px #6a00ff, 0 0 14px #0077ff;
+}
+
+/* ===== Botón crear categoría ===== */
+.crear-categoria {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.btn-crear {
+    background: linear-gradient(135deg, #6a00ff, #0077ff);
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.btn-crear:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 14px rgba(106,0,255,0.6);
+}
+
+/* ===== Tabla ===== */
+.tabla-categorias {
+    width: 100%;
+    border-collapse: collapse;
+    background: #1e1e1e;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(106,0,255,0.4);
+}
+
+.tabla-categorias thead {
+    background: linear-gradient(135deg, #6a00ff, #0077ff);
+    color: #fff;
+}
+
+.tabla-categorias th, .tabla-categorias td {
+    padding: 12px;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.tabla-categorias tbody tr {
+    border-bottom: 1px solid #333;
+    transition: background 0.3s ease;
+}
+
+.tabla-categorias tbody tr:hover {
+    background: rgba(106,0,255,0.1);
+}
+
+/* ===== Botón eliminar ===== */
+.btn-eliminar {
+    background: #ff4444;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.btn-eliminar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255,68,68,0.6);
+}

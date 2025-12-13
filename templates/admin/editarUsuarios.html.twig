@@ -2,41 +2,51 @@
 
 {% block title %}Editar Usuario{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/admin/gusuarios.css') }}">
+{% endblock %}
+
 {% block body %}
-<h1>Editar Usuario</h1>
+<main class="gusuarios-wrapper">
+    <h1 class="gusuarios-titulo">👤 Editar Usuario</h1>
 
-{# Mensajes flash #}
-{% for message in app.flashes('success') %}
-    <div class="alert alert-success">{{ message }}</div>
-{% endfor %}
-{% for message in app.flashes('error') %}
-    <div class="alert alert-danger">{{ message }}</div>
-{% endfor %}
+    {# Mensajes flash #}
+    {% for message in app.flashes('success') %}
+        <div class="alerta-exito">{{ message }}</div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alerta-error">{{ message }}</div>
+    {% endfor %}
 
-<form method="post" action="{{ path('usuario_actualizar', {id: usuario.id}) }}">
-    usuario ID: {{ usuario.id }}<br>
-    correo: {{ usuario.correo }}<br>
-    nombre de usuario: {{ usuario.nombreUsuario }}<br>
+    <form method="post" class="form-gusuarios" action="{{ path('usuario_actualizar', {id: usuario.id}) }}">
+        <p class="info-usuario">
+            <strong>ID:</strong> {{ usuario.id }} <br>
+            <strong>Correo:</strong> {{ usuario.correo }} <br>
+            <strong>Nombre de usuario:</strong> {{ usuario.nombreUsuario }}
+        </p>
 
-    <div class="mb-3">
-        <label for="rol" class="form-label">Rol</label>
-        <select id="rol" name="rol" class="form-select">
-            <option value="ROLE_USER" {% if usuario.rol == 'ROLE_USER' %}selected{% endif %}>Usuario</option>
-            <option value="ROLE_EDITOR" {% if usuario.rol == 'ROLE_EDITOR' %}selected{% endif %}>Editor</option>
-            <option value="ROLE_ADMIN" {% if usuario.rol == 'ROLE_ADMIN' %}selected{% endif %}>Administrador</option>
-        </select>
-    </div>
+        <div class="campo">
+            <label for="rol">Rol</label>
+            <select id="rol" name="rol">
+                <option value="ROLE_USER" {% if usuario.rol == 'ROLE_USER' %}selected{% endif %}>Usuario</option>
+                <option value="ROLE_EDITOR" {% if usuario.rol == 'ROLE_EDITOR' %}selected{% endif %}>Editor</option>
+                <option value="ROLE_ADMIN" {% if usuario.rol == 'ROLE_ADMIN' %}selected{% endif %}>Administrador</option>
+            </select>
+        </div>
 
-    <div class="mb-3 form-check">
-        <input type="radio" id="activo" name="activo" class="form-check-input" value="1" {% if usuario.estado %}checked{% endif %}>
-        <label for="activo" class="form-check-label">Activo</label>
-    </div>
-    <div class="mb-3 form-check">
-        <input type="radio" id="suspendido" name="activo" class="form-check-input" value="0">
-        <label for="suspendido" class="form-check-label">Suspendido</label>
-    </div>
+        <div class="campo-radio">
+            <input type="radio" id="activo" name="activo" value="1" {% if usuario.estado %}checked{% endif %}>
+            <label for="activo">Activo</label>
+        </div>
+        <div class="campo-radio">
+            <input type="radio" id="suspendido" name="activo" value="0">
+            <label for="suspendido">Suspendido</label>
+        </div>
 
-    <button type="submit" class="btn btn-primary">Guardar cambios</button>
-    <a href="{{ path('usuarios_listar') }}" class="btn btn-secondary">Cancelar</a>
-</form>
+        <div class="acciones">
+            <button type="submit" class="btn-guardar">💾 Guardar cambios</button>
+            <a href="{{ path('usuarios_listar') }}" class="btn-cancelar">Cancelar</a>
+        </div>
+    </form>
+</main>
 {% endblock %}

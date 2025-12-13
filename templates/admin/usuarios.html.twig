@@ -2,69 +2,77 @@
 
 {% block title %}Gestión de Usuarios{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/admin/eusuarios.css') }}">
+{% endblock %}
+
 {% block body %}
-<h1>Gestión de Usuarios</h1>
+<main class="eusuarios-wrapper">
+    <h1 class="eusuarios-titulo">👥 Gestión de Usuarios</h1>
 
-{# Mensajes flash #}
-{% for message in app.flashes('success') %}
-    <div class="alert alert-success">{{ message }}</div>
-{% endfor %}
-{% for message in app.flashes('error') %}
-    <div class="alert alert-danger">{{ message }}</div>
-{% endfor %}
-
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Correo</th>
-            <th>Nombre de usuario</th>
-            <th>Rol</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for usuario in usuarios %}
-        <tr>
-            <td>{{ usuario.id }}</td>
-            <td>{{ usuario.correo }}</td>
-            <td>{{ usuario.nombreUsuario }}</td>
-            <td>
-                {% if usuario.rol == 'ROLE_ADMIN'%}
-                ADMINISTRADOR
-                {% elseif usuario.rol == 'ROLE_EDITOR' %}
-                EDITOR
-                {% else %}
-                USUARIO
-                {% endif %}
-            <td>
-                {% if usuario.estado %}
-                    <span class="badge bg-success">Activo</span>
-                {% else %}
-                    <span class="badge bg-secondary">Suspendido</span>
-                {% endif %}
-            </td>
-            <td>
-                <a href="{{ path('usuario_editar', {id: usuario.id}) }}" class="btn btn-sm btn-warning">Editar</a>
-
-                {% if usuario.estado %}
-                    <a href="#" class="btn btn-sm btn-secondary">Suspender</a>
-                {% else %}
-                    <a href="#" class="btn btn-sm btn-success">Activar</a>
-                {% endif %}
-
-                <form method="post" action="{{ path('usuario_eliminar', {id: usuario.id}) }}" style="display:inline-block" onsubmit="return confirm('¿Seguro que deseas eliminar este usuario?');">
-                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ usuario.id) }}">
-                    <button class="btn btn-sm btn-danger">Eliminar</button>
-                </form>
-            </td>
-        </tr>
-    {% else %}
-        <tr>
-            <td colspan="6">No hay usuarios registrados.</td>
-        </tr>
+    {# Mensajes flash #}
+    {% for message in app.flashes('success') %}
+        <div class="alerta-exito">{{ message }}</div>
     {% endfor %}
-    </tbody>
-</table>
+    {% for message in app.flashes('error') %}
+        <div class="alerta-error">{{ message }}</div>
+    {% endfor %}
+
+    <section class="listado-usuarios">
+        <table class="tabla-usuarios">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Correo</th>
+                    <th>Nombre de usuario</th>
+                    <th>Rol</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                    <tr>
+                        <td>{{ usuario.id }}</td>
+                        <td>{{ usuario.correo }}</td>
+                        <td>{{ usuario.nombreUsuario }}</td>
+                        <td>
+                            {% if usuario.rol == 'ROLE_ADMIN'%}
+                                <span class="rol admin">ADMINISTRADOR</span>
+                            {% elseif usuario.rol == 'ROLE_EDITOR' %}
+                                <span class="rol editor">EDITOR</span>
+                            {% else %}
+                                <span class="rol user">USUARIO</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if usuario.estado %}
+                                <span class="estado activo">Activo</span>
+                            {% else %}
+                                <span class="estado suspendido">Suspendido</span>
+                            {% endif %}
+                        </td>
+                        <td class="acciones-tabla">
+                            <a href="{{ path('usuario_editar', {id: usuario.id}) }}" class="btn-accion editar">✏️ Editar</a>
+
+                            {% if usuario.estado %}
+                                <a href="#" class="btn-accion suspender">⏸️ Suspender</a>
+                            {% else %}
+                                <a href="#" class="btn-accion activar">✅ Activar</a>
+                            {% endif %}
+
+                            <form method="post" action="{{ path('usuario_eliminar', {id: usuario.id}) }}" onsubmit="return confirm('¿Seguro que deseas eliminar este usuario?');">
+                                <button class="btn-accion eliminar">🗑️ Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">No hay usuarios registrados.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</main>
 {% endblock %}

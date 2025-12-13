@@ -3,7 +3,7 @@
 {% block title %}Panel de Administración - GameNews{% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/dashboard.css') }}">
 {% endblock %}
 
 {% block body %}
@@ -15,7 +15,6 @@
             <li>📰 Noticias: <strong>{{ noticias|length }}</strong></li>
             <li>✏️ Noticias en borrador: {{ noticias|filter(n => n.estado == 'borrador')|length }}</li>
             <li>🔎 Noticias publicadas: {{ noticias|filter(n => n.estado == 'publicado')|length }}</li>
-            <li>📂 Categorías: <a href="#">Administrar categorías</a></li>
         </ul>
     </section>
 
@@ -30,8 +29,6 @@
         <li>👎 Total de votos negativos a comentarios: {{ estadisticas.TotalDeVotosNegativosComentarios}}</li>
     </ul>
 </section>
-
-
 
     <section class="admin-bloque moderacion">
         <h2>Moderación</h2>

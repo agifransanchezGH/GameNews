@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+
+/* ===== Fondo gamer ===== */
+body {
+    font-family: 'Orbitron', sans-serif;
+    background: radial-gradient(circle at center, #0d0d0d, #1a0033);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    color: #f0f0f0;
+}
+
+/* ===== Wrapper ===== */
+.enoticia-wrapper {
+    max-width: 800px;
+    margin: 80px auto 60px;
+    padding: 20px;
+}
+
+/* ===== Título ===== */
+.enoticia-titulo {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #6a00ff;
+    text-shadow: 0 0 10px #6a00ff, 0 0 14px #0077ff;
+}
+
+/* ===== Formulario ===== */
+.form-enoticia {
+    background: #1e1e1e;
+    border-radius: 16px;
+    box-shadow: 0 0 25px rgba(106, 0, 255, 0.4);
+    padding: 30px;
+    animation: fadeIn 0.8s ease;
+}
+
+/* ===== Animación ===== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Campos ===== */
+.campo {
+    margin-bottom: 1.5rem;
+}
+
+.campo label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    color: #ccc;
+}
+
+.campo input,
+.campo textarea,
+.campo select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #6a00ff;
+    border-radius: 10px;
+    background-color: #0d0d0d;
+    color: #fff;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.campo input:focus,
+.campo textarea:focus,
+.campo select:focus {
+    border-color: #0077ff;
+    box-shadow: 0 0 8px rgba(106,0,255,0.6);
+    outline: none;
+}
+
+.campo textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* ===== Botón Guardar ===== */
+.acciones {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.btn-guardar {
+    background: linear-gradient(135deg, #6a00ff, #0077ff);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.btn-guardar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 14px rgba(106,0,255,0.6);
+}

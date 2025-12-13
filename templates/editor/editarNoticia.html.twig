@@ -1,38 +1,58 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Editar Noticia{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/editor/enoticia.css') }}">
+{% endblock %}
+
 {% block body %}
-	<h1>Editar Noticia</h1>
+<main class="enoticia-wrapper">
+    <h1 class="enoticia-titulo">✏️ Editar Noticia</h1>
 
-	<form method="post" action="{{ noticia is defined ? path('noticia_editar', {'id': noticia.id}) : path('noticia_crear') }}">
-		<label>Título:</label>
-		<input type="text" name="titulo" value="{{ noticia.titulo ?? '' }}">
+    <form method="post" class="form-enoticia" action="{{ noticia is defined ? path('noticia_editar', {'id': noticia.id}) : path('noticia_crear') }}">
+        <div class="campo">
+            <label for="titulo">Título:</label>
+            <input type="text" id="titulo" name="titulo" value="{{ noticia.titulo ?? '' }}">
+        </div>
 
-		<label>Subtítulo:</label>
-		<input type="text" name="subtitulo" value="{{ noticia.subtitulo ?? '' }}">
+        <div class="campo">
+            <label for="subtitulo">Subtítulo:</label>
+            <input type="text" id="subtitulo" name="subtitulo" value="{{ noticia.subtitulo ?? '' }}">
+        </div>
 
-		<label>Cuerpo:</label>
-		<textarea name="cuerpo">{{ noticia.cuerpo ?? '' }}</textarea>
+        <div class="campo">
+            <label for="cuerpo">Cuerpo:</label>
+            <textarea id="cuerpo" name="cuerpo">{{ noticia.cuerpo ?? '' }}</textarea>
+        </div>
 
-		<label>Imagen:</label>
-		<input type="text" name="imagen" value="{{ noticia.imagen ?? '' }}">
+        <div class="campo">
+            <label for="imagen">Imagen:</label>
+            <input type="text" id="imagen" name="imagen" value="{{ noticia.imagen ?? '' }}">
+        </div>
 
-		<label>Categoría:</label>
-		<select name="categoria">
-			{% for categoria in categorias %}
-				<option value="{{ categoria.id }}" {% if noticia is defined and noticia.categoria and noticia.categoria.id == categoria.id %} selected {% endif %}>
-					{{ categoria.nombre }}
-				</option>
-			{% endfor %}
-		</select>
-		<label>Estado:</label>
-		<select name="estado">
-			<option value="borrador" {% if noticia is defined and noticia.estado == 'borrador' %} selected {% endif %}>
-				Borrador
-			</option>
-			<option value="publicado" {% if noticia is defined and noticia.estado == 'publicado' %} selected {% endif %}>
-				Publicado
-			</option>
-		</select>
-		<button type="submit">Guardar</button>
-	</form>
+        <div class="campo">
+            <label for="categoria">Categoría:</label>
+            <select id="categoria" name="categoria">
+                {% for categoria in categorias %}
+                    <option value="{{ categoria.id }}" {% if noticia is defined and noticia.categoria and noticia.categoria.id == categoria.id %} selected {% endif %}>
+                        {{ categoria.nombre }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="campo">
+            <label for="estado">Estado:</label>
+            <select id="estado" name="estado">
+                <option value="borrador" {% if noticia is defined and noticia.estado == 'borrador' %}selected{% endif %}>Borrador</option>
+                <option value="publicado" {% if noticia is defined and noticia.estado == 'publicado' %}selected{% endif %}>Publicado</option>
+            </select>
+        </div>
+
+        <div class="acciones">
+            <button type="submit" class="btn-guardar">💾 Guardar</button>
+        </div>
+    </form>
+</main>
 {% endblock %}

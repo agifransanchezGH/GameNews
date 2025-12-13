@@ -4,58 +4,72 @@
 	Panel de Editor
 {% endblock %}
 
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('css/editor/dashboard.css') }}">
+{% endblock %}
+
 {% block body %}
-	<h1>Panel del Editor</h1>
+	<main class="editor-wrapper">
+		<h1 class="editor-titulo">🎮 Panel del Editor</h1>
 
-	{% for message in app.flashes('success') %}
-    <div class="alert alert-success">{{ message }}</div>
-	{% endfor %}
+		{% for message in app.flashes('success') %}
+			<div class="alerta-exito">{{ message }}</div>
+		{% endfor %}
 
-	<div class="acciones">
-		<a href="{{ path('noticia_nueva') }}" class="btn btn-success">➕ Crear nueva noticia</a>
-		<a href="{{ path('categoria_listar') }}" class="btn btn-info">📂 Gestionar categorías</a>
-	</div>
+		<div class="acciones">
+			<a href="{{ path('noticia_nueva') }}" class="btn btn-crear">➕ Crear nueva noticia</a>
+			<a href="{{ path('categoria_listar') }}" class="btn btn-categorias">📂 Gestionar categorías</a>
+		</div>
 
-	<h2>Listado de noticias</h2>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Título</th>
-				<th>Categoría</th>
-				<th>Estado</th>
-				<th>Fecha</th>
-				<th>Acciones</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for noticia in noticias %}
-				<tr>
-					<td>{{ noticia.titulo }}</td>
-					<td>
-						ejemplo categoria</td>
-					<td>{{ noticia.estado }}</td>
-					<td>{{ noticia.fechaPublicacion|date('d/m/Y') }}</td>
-					<td>
-						<a href="{{ path('noticia_editar', {'id': noticia.id}) }}">✏️ Editar</a>
-						<form method="post" action="{{ path('noticia_eliminar', {'id': noticia.id}) }}" onsubmit="return confirm('¿Seguro que quieres eliminar esta noticia?');">
-							<button type="submit">🗑️ Eliminar</button>
-						</form>
+		<section class="listado">
+			<h2>Listado de noticias</h2>
+			<table class="tabla-noticias">
+				<thead>
+					<tr>
+						<th>Título</th>
+						<th>Categoría</th>
+						<th>Estado</th>
+						<th>Fecha</th>
+						<th>Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for noticia in noticias %}
+						<tr>
+							<td>{{ noticia.titulo }}</td>
+							<td>
+								{% if noticia.categoria %}
+									{{ noticia.categoria.nombre }}
+								{% else %}
+									Sin categoría
+								{% endif %}
+							</td>
+							<td>{{ noticia.estado }}</td>
+							<td>{{ noticia.fechaPublicacion|date('d/m/Y') }}</td>
+							<td class="acciones-tabla">
+								<a href="{{ path('noticia_editar', {'id': noticia.id}) }}" class="btn-accion editar">✏️ Editar</a>
+								<form method="post" action="{{ path('noticia_eliminar', {'id': noticia.id}) }}" onsubmit="return confirm('¿Seguro que quieres eliminar esta noticia?');">
+									<button type="submit" class="btn-accion eliminar">🗑️ Eliminar</button>
+								</form>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="5">No hay noticias creadas aún.</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</section>
 
-					</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="5">No hay noticias creadas aún.</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-
-	<h2>Estadísticas rápidas</h2>
-	<ul>
-		<li>Total de noticias:
-			{{ noticias|length }}</li>
-		<li>Categorías disponibles:
-			{{ categorias|length }}</li>
-	</ul>
+		<section class="estadisticas">
+			<h2>Estadísticas rápidas</h2>
+			<ul>
+				<li>Total de noticias:
+					{{ noticias|length }}</li>
+				<li>Categorías disponibles:
+					{{ categorias|length }}</li>
+			</ul>
+		</section>
+	</main>
 {% endblock %}

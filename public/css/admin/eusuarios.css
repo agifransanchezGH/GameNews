@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+
+/* ===== Fondo gamer ===== */
+body {
+    font-family: 'Orbitron', sans-serif;
+    background: radial-gradient(circle at center, #0d0d0d, #1a0033);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    color: #f0f0f0;
+}
+
+/* ===== Wrapper ===== */
+.eusuarios-wrapper {
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 20px;
+}
+
+/* ===== Título ===== */
+.eusuarios-titulo {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+    color: #6a00ff;
+    text-shadow: 0 0 10px #6a00ff, 0 0 14px #0077ff;
+}
+
+/* ===== Alertas ===== */
+.alerta-exito {
+    background: #00bfff;
+    color: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+    box-shadow: 0 0 12px rgba(0, 191, 255, 0.6);
+}
+
+.alerta-error {
+    background: #ff4444;
+    color: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+    box-shadow: 0 0 12px rgba(255, 68, 68, 0.6);
+}
+
+/* ===== Tabla ===== */
+.tabla-usuarios {
+    width: 100%;
+    border-collapse: collapse;
+    background: #1e1e1e;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(106,0,255,0.4);
+}
+
+.tabla-usuarios thead {
+    background: linear-gradient(135deg, #6a00ff, #0077ff);
+    color: #fff;
+}
+
+.tabla-usuarios th, .tabla-usuarios td {
+    padding: 12px;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.tabla-usuarios tbody tr {
+    border-bottom: 1px solid #333;
+    transition: background 0.3s ease;
+}
+
+.tabla-usuarios tbody tr:hover {
+    background: rgba(106,0,255,0.1);
+}
+
+/* ===== Roles ===== */
+.rol {
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+
+.rol.admin {
+    background: #ff4444;
+    color: #fff;
+}
+
+.rol.editor {
+    background: #00bfff;
+    color: #fff;
+}
+
+.rol.user {
+    background: #6a00ff;
+    color: #fff;
+}
+
+/* ===== Estado ===== */
+.estado {
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+
+.estado.activo {
+    background: #28a745;
+    color: #fff;
+}
+
+.estado.suspendido {
+    background: #6c757d;
+    color: #fff;
+}
+
+/* ===== Acciones ===== */
+.acciones-tabla {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-accion {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    border: none;
+}
+
+.btn-accion.editar {
+    background: #ffc107;
+    color: #000;
+}
+
+.btn-accion.suspender {
+    background: #6c757d;
+    color: #fff;
+}
+
+.btn-accion.activar {
+    background: #28a745;
+    color: #fff;
+}
+
+.btn-accion.eliminar {
+    background: #ff4444;
+    color: #fff;
+}
+
+.btn-accion:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(106,0,255,0.6);
+}

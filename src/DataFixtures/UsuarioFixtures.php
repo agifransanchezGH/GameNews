@@ -1,7 +1,6 @@
 <?php
 namespace App\DataFixtures;
 
-
 use App\Entity\Usuario;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -23,6 +22,7 @@ class UsuarioFixtures extends Fixture
         $usuarioAdmin->setCorreo('admin@gamenews.com');
         $usuarioAdmin->setRol('ROLE_ADMIN');
         $usuarioAdmin->setContraseña($this->hash->hashPassword($usuarioAdmin, '123'));
+        $usuarioAdmin->setEstado(true);
         $manager->persist($usuarioAdmin);
 
         $usuarioEditor = new Usuario();
@@ -30,6 +30,7 @@ class UsuarioFixtures extends Fixture
         $usuarioEditor->setCorreo('editor@gamenews.com');
         $usuarioEditor->setRol('ROLE_EDITOR');
         $usuarioEditor->setContraseña($this->hash->hashPassword($usuarioEditor, '123'));
+        $usuarioEditor->setEstado(true);
         $manager->persist($usuarioEditor);
 
         $usuario = new Usuario();
@@ -37,6 +38,7 @@ class UsuarioFixtures extends Fixture
         $usuario->setCorreo('usuario@gamenews.com');
         $usuario->setRol('ROLE_USER');
         $usuario->setContraseña($this->hash->hashPassword($usuario, '123'));
+        $usuario->setEstado(true);
         $manager->persist($usuario);
 
         $manager->flush();
