@@ -1,0 +1,27 @@
+@startuml Diagrama de Secuencia - Gestionar Noticias
+actor Editor
+participant "NoticiaController" as NoticiaController
+participant "AbstractController" as AbstractController
+participant "EntityManagerInterface" as EM
+participant "CategoriaRepository" as CategoriaRepo
+
+Editor -> NoticiaController : POST /editor/noticia/crear\ncrearNoticia(Request, EM)
+activate NoticiaController
+NoticiaController -> AbstractController : denyAccessUnlessGranted('ROLE_EDITOR')
+activate AbstractController
+AbstractController --> NoticiaController : allowed
+deactivate AbstractController
+NoticiaController -> CategoriaRepo : find((int)$categoriaId)
+activate CategoriaRepo
+CategoriaRepo --> NoticiaController : Categoria|null
+deactivate CategoriaRepo
+NoticiaController -> NoticiaController : new Noticia()
+NoticiaController -> EM : persist(Noticia)
+activate EM
+EM --> NoticiaController : ok
+NoticiaController -> EM : flush()
+EM --> NoticiaController : ok
+deactivate EM
+NoticiaController --> Editor : addFlash + redirect(editor_dashboard)
+deactivate NoticiaController
+@enduml

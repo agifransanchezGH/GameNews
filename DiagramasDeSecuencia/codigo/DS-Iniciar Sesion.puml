@@ -1,0 +1,22 @@
+@startuml Diagrama de Secuencia - Iniciar Sesión
+actor Usuario
+participant "IniciarSesionController" as LoginCtrl
+participant "AuthenticationUtils" as AuthUtils
+
+Usuario -> LoginCtrl : GET /login\nlogin(AuthenticationUtils)
+activate LoginCtrl
+LoginCtrl -> AuthUtils : getLastUsername()
+activate AuthUtils
+AuthUtils --> LoginCtrl : correo
+deactivate AuthUtils
+LoginCtrl -> AuthUtils : getLastAuthenticationError()
+activate AuthUtils
+AuthUtils --> LoginCtrl : error
+deactivate AuthUtils
+alt usuario ya autenticado ($this->getUser())
+LoginCtrl --> Usuario : redirect(app_pagina_principal)
+else mostrar login
+LoginCtrl --> Usuario : render(security/iniciarSesion.html.twig)
+end
+deactivate LoginCtrl
+@enduml

@@ -10,8 +10,9 @@
 
 <main class="contenido-principal">
 {% for message in app.flashes('error') %}
-    <div class="alert alert-danger">{{ message }}</div>
+    <div class="error">{{ message }}</div>
 {% endfor %}
+
     <!-- Sección de bienvenida expandida -->
     <section class="bienvenida-destacada">
         <div class="bienvenida-texto">

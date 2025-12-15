@@ -1,0 +1,30 @@
+@startuml Diagrama de Secuencia - Registrarse
+actor Lector
+participant "RegistrarseController" as RegistrarseController
+participant "UserPasswordHasherInterface" as PasswordHasher
+participant "EntityManagerInterface" as EM
+participant "UsuarioRepository" as UsuarioRepo
+
+Usuario -> RegistrarseController : POST /registrarse\nregistrarse(Request,...)
+activate RegistrarseController
+RegistrarseController -> UsuarioRepo : findOneBy(['correo' => $email])
+activate UsuarioRepo
+UsuarioRepo --> RegistrarseController : usuario|null
+deactivate UsuarioRepo
+alt correo no existe y validaciones ok
+RegistrarseController -> PasswordHasher : hashPassword($usuario, $password)
+activate PasswordHasher
+PasswordHasher --> RegistrarseController : hashedPassword
+deactivate PasswordHasher
+RegistrarseController -> EM : persist(Usuario)
+activate EM
+EM --> RegistrarseController : ok
+RegistrarseController -> EM : flush()
+EM --> RegistrarseController : ok
+deactivate EM
+RegistrarseController --> Usuario : redirect(app_pagina_principal)
+else error
+RegistrarseController --> Usuario : redirect(app_registrarse)
+end
+deactivate RegistrarseController
+@enduml

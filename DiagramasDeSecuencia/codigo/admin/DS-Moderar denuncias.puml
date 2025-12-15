@@ -1,0 +1,29 @@
+@startuml Diagrama de Secuencia - Moderar Denuncias
+actor Administrador
+participant "AdminDenunciaController" as AdminDenunciaController
+participant "AbstractController" as AbstractController
+participant "DenunciaComentarioRepository" as DenunciaRepo
+participant "EntityManagerInterface" as EM
+
+Administrador -> AdminDenunciaController : GET /admin/denuncias/{id}/estado/{estado}\ncambiarEstado(id, estado, DenunciaRepo, EM)
+activate AdminDenunciaController
+AdminDenunciaController -> AbstractController : denyAccessUnlessGranted('ROLE_ADMIN')
+activate AbstractController
+AbstractController --> AdminDenunciaController : allowed
+deactivate AbstractController
+AdminDenunciaController -> DenunciaRepo : find(id)
+activate DenunciaRepo
+DenunciaRepo --> AdminDenunciaController : Denuncia|null
+deactivate DenunciaRepo
+alt encontrada and estado valido
+AdminDenunciaController -> Denuncia : setEstado(estado)
+AdminDenunciaController -> EM : flush()
+activate EM
+EM --> AdminDenunciaController : ok
+deactivate EM
+AdminDenunciaController --> Administrador : addFlash "Denuncia actualizada correctamente" + redirect(admin_denuncias)
+else error
+AdminDenunciaController --> Administrador : addFlash "Denuncia no encontrada" o "Estado invalido" + redirect(admin_denuncias)
+end
+deactivate AdminDenunciaController
+@enduml

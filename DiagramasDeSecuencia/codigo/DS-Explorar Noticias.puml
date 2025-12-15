@@ -1,0 +1,19 @@
+@startuml Diagrama de Secuencia - Explorar Noticias
+actor Visitante
+participant "PaginaPrincipalController" as PPController
+participant "NoticiaManager" as NoticiaManager
+participant "CategoriaRepository" as CategoriaRepo
+
+Visitante -> PPController : GET /
+activate PPController
+PPController -> NoticiaManager : getNoticias()
+activate NoticiaManager
+NoticiaManager --> PPController : noticias[]
+deactivate NoticiaManager
+PPController -> CategoriaRepo : findAll()
+activate CategoriaRepo
+CategoriaRepo --> PPController : categorias[]
+deactivate CategoriaRepo
+PPController --> Visitante : render(pagina_principal/paginaPrincipal.html.twig)
+deactivate PPController
+@enduml

@@ -15,6 +15,7 @@ class UsuarioController extends AbstractController
     public function listar(EntityManagerInterface $em): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         $usuarios = $em->getRepository(Usuario::class)->findAll();
 
         return $this->render('admin/usuarios.html.twig', [

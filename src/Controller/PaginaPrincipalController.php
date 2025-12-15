@@ -27,14 +27,14 @@ class PaginaPrincipalController extends AbstractController
                 'noticias' => $noticias,
                 'categorias' => $categorias,
             ]);
-        }else{
-        // Verificación de estado de cuenta
-        // getEstado() devuelve true si la cuenta está activa, false si está suspendida. Marca error pero funciona
-        if ($usuario && !$usuario->getEstado()) {
-            $this->addFlash('error', 'Tu cuenta está suspendida. Puedes navegar como lector sin iniciar sesión.');
-            // Cierra la sesion para que quede como lector. Este get es parte del AbtractController
-            $this->container->get('security.token_storage')->setToken(null);
-        }
+        } else {
+            // Verificación de estado de cuenta
+            // getEstado() devuelve true si la cuenta está activa, false si está suspendida. Marca error pero funciona
+            if ($usuario && !$usuario->getEstado()) {
+                $this->addFlash('error', 'Tu cuenta está suspendida. Puedes navegar como lector sin iniciar sesión.');
+                // Cierra la sesion para que quede como lector. Este get es parte del AbtractController
+                $this->container->get('security.token_storage')->setToken(null);
+            }
         }
 
         return $this->render('pagina_principal/paginaPrincipal.html.twig', [
@@ -45,7 +45,7 @@ class PaginaPrincipalController extends AbstractController
     }
 
     #[Route('/buscar', name: 'buscar_contenido')]
-    public function buscar(Request $request, NoticiaRepository $noticiaRepository, CategoriaRepository $categoriaRepository): Response 
+    public function buscar(Request $request, NoticiaRepository $noticiaRepository, CategoriaRepository $categoriaRepository): Response
     {
         $q = $request->query->get('q');
         $categoriaId = $request->query->get('categoria');
@@ -63,12 +63,10 @@ class PaginaPrincipalController extends AbstractController
             $qb->andWhere('n.categoria = :categoria')
                 ->setParameter('categoria', $categoriaId);
         }
-
         if ($desde) {
             $qb->andWhere('n.fechaPublicacion >= :desde')
                 ->setParameter('desde', new \DateTimeImmutable($desde));
         }
-
         if ($hasta) {
             $qb->andWhere('n.fechaPublicacion <= :hasta')
                 ->setParameter('hasta', new \DateTimeImmutable($hasta));

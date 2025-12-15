@@ -1,0 +1,14 @@
+@startuml Diagrama de Secuencia - Ver Noticia
+actor Visitante
+participant "NoticiaController" as NoticiaController
+participant "NoticiaManager" as NoticiaManager
+
+Visitante -> NoticiaController : GET /noticia/{id}\nindex(id, NoticiaManager)
+activate NoticiaController
+NoticiaController -> NoticiaManager : getNoticia(id)
+activate NoticiaManager
+NoticiaManager --> NoticiaController : Noticia|null
+deactivate NoticiaManager
+NoticiaController --> Visitante : render(pagina_noticia/noticia.html.twig)
+deactivate NoticiaController
+@enduml

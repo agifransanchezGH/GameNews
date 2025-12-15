@@ -13,9 +13,11 @@
 			<div class="login-card">
 				<h1 class="login-titulo">🎮 Iniciar sesión</h1>
 				<p class="login-subtitulo">Accedé a tu cuenta para votar, comentar y explorar el mundo gamer.</p>
-
+				
 				{% if error %}
-					<div class="login-error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+					{% if error.messageKey == 'Invalid credentials.' %}
+						<div class="login-error">Correo o contraseña incorrectos. Por favor intente nuevamente</div>
+					{% endif %}
 				{% endif %}
 
 				<form method="post" class="form-login">

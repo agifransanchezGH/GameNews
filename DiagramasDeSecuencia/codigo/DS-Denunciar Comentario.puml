@@ -1,0 +1,42 @@
+@startuml Diagrama de Secuencia - Denunciar Comentario
+actor Usuario
+participant "DenunciaController" as DenunciaController
+participant "ComentarioRepository" as ComentarioRepo
+participant "DenunciaComentarioRepository" as DenunciaRepo
+participant "EntityManagerInterface" as EM
+
+Usuario -> DenunciaController : GET/POST /comentario/{id}/denunciar\ndenunciar(id, Request, ComentarioRepo, DenunciaRepo, EM)
+activate DenunciaController
+DenunciaController -> DenunciaController : getUser()
+alt not authenticated
+DenunciaController --> Usuario : addFlash + redirect(app_iniciar_sesion)
+else authenticated
+DenunciaController -> ComentarioRepo : find(id)
+activate ComentarioRepo
+ComentarioRepo --> DenunciaController : Comentario|null
+deactivate ComentarioRepo
+alt comentario no encontrado
+DenunciaController --> Usuario : redirect(app_pagina_principal)
+else
+DenunciaController -> DenunciaRepo : findOneBy(['denunciante'=>$usuario,'comentario'=>$comentario])
+activate DenunciaRepo
+DenunciaRepo --> DenunciaController : existente|null
+deactivate DenunciaRepo
+alt ya reportado
+DenunciaController --> Usuario : addFlash + redirect(app_pagina_noticia)
+else POST y tipo presente
+DenunciaController -> DenunciaController : new DenunciaComentario()
+DenunciaController -> EM : persist(DenunciaComentario)
+activate EM
+EM --> DenunciaController : ok
+DenunciaController -> EM : flush()
+EM --> DenunciaController : ok
+deactivate EM
+DenunciaController --> Usuario : addFlash + redirect(app_pagina_noticia)
+else render formulario
+DenunciaController --> Usuario : render(denuncias/reportar.html.twig)
+end
+end
+end
+deactivate DenunciaController
+@enduml

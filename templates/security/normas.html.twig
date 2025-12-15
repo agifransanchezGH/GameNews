@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Normas de la Comunidad{% endblock %}
+
+{% block body %}
+	<div class="container mt-4">
+		<h1 class="text-center mb-4">📜 Normas de la Comunidad</h1>
+		<p class="text-muted text-center">
+			Estas reglas garantizan un espacio respetuoso y seguro para todos los miembros.
+		</p>
+
+		<ul class="list-group">
+			<li class="list-group-item">✅ Respeto mutuo: no insultar ni agredir a otros usuarios.</li>
+			<li class="list-group-item">🚫 Nada de discriminación: evitar comentarios racistas, sexistas, homofóbicos o de odio.</li>
+			<li class="list-group-item">🗣️ Lenguaje apropiado: no usar lenguaje ofensivo, vulgar o violento.</li>
+			<li class="list-group-item">📢 Evitar spam: no repetir mensajes ni publicar enlaces irrelevantes o publicidad.</li>
+			<li class="list-group-item">🙅‍♂️ No al acoso: prohibido hostigar o molestar a otros usuarios.</li>
+			<li class="list-group-item">💬 Debate sano: opiniones distintas son bienvenidas, siempre con respeto y argumentos.</li>
+			<li class="list-group-item">🔒 Privacidad: no compartir datos personales tuyos ni de otros.</li>
+			<li class="list-group-item">📌 Relevancia: los comentarios deben estar relacionados con el tema de la publicación.</li>
+			<li class="list-group-item">🔊 Evitar escribir todo en mayúsculas (se interpreta como gritar).</li>
+			<li class="list-group-item">🚨 Reportes: si ves un comentario que incumple las normas, usá la función de reporte.</li>
+			<li class="list-group-item">🌟 Constructividad: aportá valor a la conversación, evitando mensajes vacíos.</li>
+		</ul>
+
+		<div class="mt-4 text-center">
+			<a href="{{ path('app_registrarse') }}" class="btn btn-primary">Volver al registro</a>
+		</div>
+	</div>
+{% endblock %}

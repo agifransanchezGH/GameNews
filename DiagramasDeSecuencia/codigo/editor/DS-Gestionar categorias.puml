@@ -1,0 +1,26 @@
+@startuml Diagrama de Secuencia - Gestionar Categorías
+actor Editor
+participant "CategoriaController" as CategoriaController
+participant "AbstractController" as AbstractController
+participant "EntityManagerInterface" as EM
+
+Editor -> CategoriaController : POST /editor/categorias/nueva\nnueva(Request, EM)
+activate CategoriaController
+CategoriaController -> AbstractController : denyAccessUnlessGranted('ROLE_EDITOR')
+activate AbstractController
+AbstractController --> CategoriaController : allowed
+deactivate AbstractController
+alt nombre y descripcion presentes
+CategoriaController -> CategoriaController : new Categoria()
+CategoriaController -> EM : persist(Categoria)
+activate EM
+EM --> CategoriaController : ok
+CategoriaController -> EM : flush()
+EM --> CategoriaController : ok
+deactivate EM
+CategoriaController --> Editor : addFlash + redirect(categoria_listar)
+else error
+CategoriaController --> Editor : addFlash + render(crearCategoria.html.twig)
+end
+deactivate CategoriaController
+@enduml
