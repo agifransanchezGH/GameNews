@@ -10,9 +10,8 @@
 
 <main class="contenido-principal">
 {% for message in app.flashes('error') %}
-    <div class="error">{{ message }}</div>
+    <div class="alert alert-danger">{{ message }}</div>
 {% endfor %}
-
     <!-- Sección de bienvenida expandida -->
     <section class="bienvenida-destacada">
         <div class="bienvenida-texto">
@@ -74,6 +73,9 @@
         {% endfor %}
     </section>
 </main>
+
+{% include 'security/normas.html.twig' %}
+
 {% endblock %}
 
 {% block footer %}

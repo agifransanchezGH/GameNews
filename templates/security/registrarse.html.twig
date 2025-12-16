@@ -13,15 +13,16 @@
 
 		<div class="formulario-registro">
 			<h2>Crea tu cuenta</h2>
-			<div class="opciones">
-				<a href="/login">Iniciar Sesión</a>
-				<a href="/registrarse" class="activo">Registrarse</a>
+
+			<div>
+				{% for label, mensajes in app.flashes %}
+					{% for mensaje in mensajes %}
+						<div class="alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show" role="alert">
+							{{ mensaje }}
+						</div>
+					{% endfor %}
+				{% endfor %}
 			</div>
-
-			{% for advertencia in app.flashes %}
-				<div>{{ advertencia }}</div>
-			{% endfor %}
-
 			<form method="post">
 				<div class="campo">
 					<label for="nombreUsuario">Nombre de usuario</label>
@@ -48,12 +49,12 @@
 					<input class="form-check-input" type="checkbox" id="aceptoTerminos" name="aceptoTerminos" value="1" required>
 					<label class="form-check-label" for="aceptoTerminos">
 						Acepto las
-						<a href="{{ path('app_normas') }}">normas de la comunidad</a>
+						<a href="#modalNormas" class="btn-normas">Normas de la comunidad</a>
+						{% include 'security/normas.html.twig' %}
 					</label>
 				</div>
-
 				<div class="acciones">
-					<button type="submit">Registrarse</button>
+					<button type="submit">Enviar</button>
 					<a href="{{ path('app_pagina_principal') }}">Cancelar</a>
 				</div>
 			</form>

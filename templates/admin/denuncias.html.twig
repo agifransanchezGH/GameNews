@@ -8,8 +8,8 @@
 
 {% block body %}
 <h1>Gestión de Denuncias</h1>
-
-<table>
+{% if denuncias %}
+    <table>
     <thead>
         <tr>
             <th>ID</th>
@@ -34,8 +34,8 @@
                 <td>{{ denuncia.estado }}</td>
                 <td>
                     {% if denuncia.estado == 'pendiente' %}
-                        <a href="{{ path('admin_denuncia_estado', {id: denuncia.id, estado: 'resuelta'}) }}">✅ Resolver</a>
-                        <a href="{{ path('admin_denuncia_estado', {id: denuncia.id, estado: 'rechazada'}) }}">❌ Rechazar</a>
+                        <a href="{{ path('admin_denuncia_estado', {id: denuncia.id, estado: 'resuelta'}) }}"> Eliminar comentario</a>
+                        <a href="{{ path('admin_denuncia_estado', {id: denuncia.id, estado: 'rechazada'}) }}"> Eliminar Comentario</a>
                     {% else %}
                         <em>Ya gestionada</em>
                     {% endif %}
@@ -44,4 +44,9 @@
         {% endfor %}
     </tbody>
 </table>
+{% else %}
+    <h2>No hay denuncias pendientes</h2>
+    {% endif %}
+
+
 {% endblock %}

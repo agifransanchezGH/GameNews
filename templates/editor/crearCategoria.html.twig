@@ -9,15 +9,6 @@
 {% block body %}
 <main class="ccategoria-wrapper">
     <h1 class="ccategoria-titulo">📂 Crear nueva categoría</h1>
-
-    {% for message in app.flashes('success') %}
-        <div class="alerta-exito">{{ message }}</div>
-    {% endfor %}
-    
-    {% for message in app.flashes('error') %}
-        <div class="alerta-error">{{ message }}</div>
-    {% endfor %}
-
     <form method="post" action="{{ path('categoria_nueva') }}" class="form-ccategoria">
         <div class="campo">
             <label for="nombre">Nombre:</label>
@@ -29,7 +20,9 @@
         </div>
         <div class="acciones">
             <button type="submit" class="btn-crear">➕ Crear categoría</button>
+            <a href="{{ path("categoria_listar") }}" class="btn_crear">Cancelar</a>
         </div>
+        
     </form>
 </main>
 {% endblock %}

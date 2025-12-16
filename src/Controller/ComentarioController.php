@@ -22,6 +22,7 @@ public function agregarComentario(Request $request, EntityManagerInterface $em, 
         throw $this->createNotFoundException('Noticia no encontrada');
     }
 
+    //Contenido del comentario que se quiere realizar
     $contenido = $request->request->get('contenido');
 
     if ($contenido && $this->getUser()) {
@@ -34,7 +35,6 @@ public function agregarComentario(Request $request, EntityManagerInterface $em, 
         $em->persist($comentario);
         $em->flush();
     }
-
     return $this->redirectToRoute('app_pagina_noticia', ['id' => $noticia->getId()]);
 }
 

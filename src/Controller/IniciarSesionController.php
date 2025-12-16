@@ -18,7 +18,7 @@ public function login(AuthenticationUtils $authenticationUtils): Response
     $usuario = $this->getUser();
 
         if ($usuario) {
-            return $this->redirectToRoute('app_pagina_princiapal');
+            return $this->redirectToRoute('app_pagina_principal');
         } else {
         return $this->render('security/iniciarSesion.html.twig', [
         'correo' => $correo,

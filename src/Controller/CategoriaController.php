@@ -21,15 +21,19 @@ class CategoriaController extends AbstractController
         ]);
     }
 
-    #[Route('/editor/categorias/nueva', name: 'categoria_nueva')]
-public function nueva(Request $request, EntityManagerInterface $em): Response
+    #[Route('/editor/categorias/nueva', name: 'categoria_nueva') ]
+public function crearCategoria(Request $request, EntityManagerInterface $em): Response
 {
     $this->denyAccessUnlessGranted('ROLE_EDITOR');
     if ($request->isMethod('POST')) {
         $nombre = $request->request->get('nombre');
         $descripcion = $request->request->get('descripcion');
-
-        if ($nombre && $descripcion) {
+        $categoriaExistente = $em->getRepository(Categoria::class)->findOneBy(['nombre' => $nombre]);  
+        if ($categoriaExistente) {
+            $this->addFlash('error', 'La categoría ya existe');
+            return $this->redirectToRoute('categoria_nueva');
+        }else{
+            if ($nombre && $descripcion) {
             $categoria = new Categoria();
             $categoria->setNombre($nombre);
             $categoria->setDescripcion($descripcion);
@@ -40,7 +44,7 @@ public function nueva(Request $request, EntityManagerInterface $em): Response
             $this->addFlash('success', 'Categoría creada correctamente');
             return $this->redirectToRoute('categoria_listar');
         }
-
+    }
         $this->addFlash('error', 'Todos los campos son obligatorios');
     }
 
@@ -57,6 +61,7 @@ public function nueva(Request $request, EntityManagerInterface $em): Response
             $em->remove($categoria);
             $em->flush();
         }
+        $this->addFlash('success', 'Categoria eliminada correctamente');
         return $this->redirectToRoute('categoria_listar');
     }
 }

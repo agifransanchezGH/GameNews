@@ -48,7 +48,7 @@
 							<td>{{ noticia.fechaPublicacion|date('d/m/Y') }}</td>
 							<td class="acciones-tabla">
 								<a href="{{ path('noticia_editar', {'id': noticia.id}) }}" class="btn-accion editar">✏️ Editar</a>
-								<form method="post" action="{{ path('noticia_eliminar', {'id': noticia.id}) }}" onsubmit="return confirm('¿Seguro que quieres eliminar esta noticia?');">
+								<form method="post" action="{{ path('noticia_eliminar', {'id': noticia.id}) }}" onsubmit="return confirm('¿Deseas eliminar permanentemente esta noticia?');">
 									<button type="submit" class="btn-accion eliminar">🗑️ Eliminar</button>
 								</form>
 							</td>

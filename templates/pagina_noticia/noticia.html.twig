@@ -16,6 +16,8 @@
 				<h1>{{ noticia.titulo }}</h1>
 				<h2>{{ noticia.subtitulo }}</h2>
 				<small class="noticia-fecha">{{ noticia.fechaPublicacion|date('d M Y') }}</small>
+				<small class="noticia-fecha">{{ noticia.categoria.nombre }}</small>
+
 			</div>
 			<p class="noticia-cuerpo">{{ noticia.cuerpo }}</p>
 		</section>
@@ -52,7 +54,7 @@
 					<button type="submit">Enviar</button>
 				</form>
 			{% else %}
-				<p class="comentario-login">Usuario no autenticado. Inicia sesión para dejar un comentario.</p>
+				<p class="comentario-login">Usuario no autenticado. Inicia sesión para dejar un comentario o interactuar.</p>
 				<a href="{{ path('app_iniciar_sesion') }}">
 					<button class="btn-login">Iniciar sesión</button>
 				</a>
@@ -76,7 +78,6 @@
 								<input type="hidden" name="valor" value="1">
 								<button type="submit">👍 {{ comentario.votoComentarios|filter(v => v.valor)|length }}</button>
 							</form>
-
 							<form method="post" action="{{ path('votar_comentario', {'id': comentario.id}) }}">
 								<input type="hidden" name="valor" value="0">
 								<button type="submit">👎 {{ comentario.votoComentarios|filter(v => not v.valor)|length }}</button>

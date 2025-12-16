@@ -13,10 +13,10 @@
 			<div class="login-card">
 				<h1 class="login-titulo">🎮 Iniciar sesión</h1>
 				<p class="login-subtitulo">Accedé a tu cuenta para votar, comentar y explorar el mundo gamer.</p>
-				
+				<!--Mensaje de error traducido-->
 				{% if error %}
 					{% if error.messageKey == 'Invalid credentials.' %}
-						<div class="login-error">Correo o contraseña incorrectos. Por favor intente nuevamente</div>
+						<div class="login-error">Por favor complete los campos con los datos correspondientes</div>
 					{% endif %}
 				{% endif %}
 
@@ -37,23 +37,25 @@
 					</div>
 				</form>
 			</div>
-			Cuentas creadas para probar:<br>
-			<table>
-				<thead>
-					<tr>
-						<th>Correo</th>
-						<th>Contrasña</th>
-					</tr>
-				</thead>
-			</tbody>
-			<tr>
-				<td>admin@gamenews.com</td>
+			<div class="login-wrapper">
+				Cuentas creadas para probar:<br>
+				<table>
+					<thead>
+						<tr>
+							<th>Correo</th>
+							<th>Contrasña</th>
+						</tr>
+					</thead>
+				</tbody>
+				<tr>
+					<td>admin@gamenews.com</td>
+					<td>123</td>
+				</tr>
+				<td>editor@gamenews.com</td>
 				<td>123</td>
 			</tr>
-			<td>editor@gamenews.com</td>
+			<td>usuario@gamenews.com</td>
 			<td>123</td>
-		</tr>
-		<td>usuario@gamenews.com</td>
-		<td>123</td>
+		</div>
 	</body>
 </tr></tbody></table></main></body>{% endblock %}

@@ -1,61 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Crear Noticia{% endblock %}
+{% block title %}Crear Noticia
+{% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/editor/cnoticia.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/editor/cnoticia.css') }}">
 {% endblock %}
 
 {% block body %}
-<main class="cnoticia-wrapper">
-    <h1 class="cnoticia-titulo">📰 Crear Noticia</h1>
+	<main class="cnoticia-wrapper">
+		<h1 class="cnoticia-titulo">📰 Crear Noticia</h1>
 
-    <form method="post" class="form-cnoticia" action="{{ noticia is defined ? path('noticia_editar', {'id': noticia.id}) : path('noticia_crear') }}">
-        <div class="campo">
-            <label for="titulo">Título:</label>
-            <input type="text" id="titulo" name="titulo" value="{{ noticia.titulo ?? '' }}">
-        </div>
+		<form action="{{ path('noticia_crear') }}" method="post" enctype="multipart/form-data">
+			<div class="campo">
+				<label for="titulo">Título:</label>
+				<input type="text" id="titulo" name="titulo" value="{{ noticia.titulo ?? '' }}">
+			</div>
 
-        <div class="campo">
-            <label for="subtitulo">Subtítulo:</label>
-            <input type="text" id="subtitulo" name="subtitulo" value="{{ noticia.subtitulo ?? '' }}">
-        </div>
+			<div class="campo">
+				<label for="imagen">Imagen:</label>
+				<input type="file" id="imagen" name="imagen" accept="image/*">
+			</div>
 
-        <div class="campo">
-            <label for="cuerpo">Cuerpo:</label>
-            <textarea id="cuerpo" name="cuerpo">{{ noticia.cuerpo ?? '' }}</textarea>
-        </div>
+			<div class="campo">
+				<label for="subtitulo">Subtítulo:</label>
+				<input type="text" id="subtitulo" name="subtitulo" value="{{ noticia.subtitulo ?? '' }}">
+			</div>
 
-        <div class="campo">
-            <label for="imagen">Imagen:</label>
-            <input type="text" id="imagen" name="imagen" value="{{ noticia.imagen ?? '' }}">
-        </div>
+			<div class="campo">
+				<label for="cuerpo">Cuerpo:</label>
+				<textarea id="cuerpo" name="cuerpo">{{ noticia.cuerpo ?? '' }}</textarea>
+			</div>
 
-        <div class="campo">
-            <label for="categoria">Categoría:</label>
-            <select id="categoria" name="categoria">
-                {% for categoria in categorias %}
-                    <option value="{{ categoria.id }}"
-                        {% if noticia is defined and noticia.categoria and noticia.categoria.id == categoria.id %}
-                            selected
-                        {% endif %}>
-                        {{ categoria.nombre }}
-                    </option>
-                {% endfor %}
-            </select>
-        </div>
+			<div class="campo">
+				<label for="categoria">Categoría:</label>
+				<select id="categoria" name="categoria">
+					{% for categoria in categorias %}
+						<option value="{{ categoria.id }}" {% if noticia is defined and noticia.categoria and noticia.categoria.id == categoria.id %} selected {% endif %}>
+							{{ categoria.nombre }}
+						</option>
+					{% endfor %}
+				</select>
+			</div>
 
-        <div class="campo">
-            <label for="estado">Estado:</label>
-            <select id="estado" name="estado">
-                <option value="borrador" {% if noticia is defined and noticia.estado == 'borrador' %}selected{% endif %}>Borrador</option>
-                <option value="publicado" {% if noticia is defined and noticia.estado == 'publicado' %}selected{% endif %}>Publicado</option>
-            </select>
-        </div>
+			<div class="campo">
+				<label for="estado">Estado:</label>
+				<select id="estado" name="estado">
+					<option value="borrador" {% if noticia is defined and noticia.estado == 'borrador' %} selected {% endif %}>Borrador</option>
+					<option value="publicado" {% if noticia is defined and noticia.estado == 'publicado' %} selected {% endif %}>Publicado</option>
+				</select>
+			</div>
 
-        <div class="acciones">
-            <button type="submit" class="btn-guardar">💾 Guardar</button>
-        </div>
-    </form>
-</main>
+			<div class="acciones">
+				<button type="submit" class="btn-guardar">💾 Guardar</button>
+				<a href="{{ path("editor_dashboard") }}" class="btn_crear">Cancelar</a>
+			</div>
+		</form>
+	</main>
 {% endblock %}

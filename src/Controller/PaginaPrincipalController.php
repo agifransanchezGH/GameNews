@@ -2,20 +2,21 @@
 
 namespace App\Controller;
 
-use App\Manager\NoticiaManager;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CategoriaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\NoticiaRepository;
+use App\Entity\Noticia;
 
 class PaginaPrincipalController extends AbstractController
 {
     #[Route('/', name: 'app_pagina_principal')]
-    public function index(NoticiaManager $noticiaManager, CategoriaRepository $categoriaRepository): Response
+    public function listado(EntityManagerInterface $em, CategoriaRepository $categoriaRepository): Response
     {
-        $noticias = $noticiaManager->getNoticias();
+        $noticias = $em->getRepository(Noticia::class)->findBy([], ['fechaPublicacion' => 'DESC']);
         $categorias = $categoriaRepository->findAll();
 
         $usuario = $this->getUser();
@@ -31,7 +32,7 @@ class PaginaPrincipalController extends AbstractController
             // Verificación de estado de cuenta
             // getEstado() devuelve true si la cuenta está activa, false si está suspendida. Marca error pero funciona
             if ($usuario && !$usuario->getEstado()) {
-                $this->addFlash('error', 'Tu cuenta está suspendida. Puedes navegar como lector sin iniciar sesión.');
+                $this->addFlash('error', 'Tu cuenta está suspendida. Puedes navegar como lector sin iniciar sesión.Contacte con un administrador');
                 // Cierra la sesion para que quede como lector. Este get es parte del AbtractController
                 $this->container->get('security.token_storage')->setToken(null);
             }
@@ -53,12 +54,10 @@ class PaginaPrincipalController extends AbstractController
         $hasta = $request->query->get('hasta');
 
         $qb = $noticiaRepository->createQueryBuilder('n');
-
         if ($q) {
             $qb->andWhere('n.titulo LIKE :q OR n.cuerpo LIKE :q')
                 ->setParameter('q', '%' . $q . '%');
         }
-
         if ($categoriaId) {
             $qb->andWhere('n.categoria = :categoria')
                 ->setParameter('categoria', $categoriaId);
