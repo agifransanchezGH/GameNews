@@ -10,8 +10,10 @@ use App\Repository\NoticiaRepository;
 use App\Repository\UsuarioRepository;
 use App\Repository\VotoComentarioRepository;
 
+// Controlador del panel principal del administrador: muestra estadísticas y accesos rápidos.
 class AdminDashboardController extends AbstractController 
 {
+    // Muestra datos generales: denuncias pendientes, comentarios recientes, totales, etc.
     #[Route('/admin/dashboard', name: 'admin_dashboard')]
     public function dashboard(DenunciaComentarioRepository $denunciaRepo,ComentarioRepository $comentarioRepo,NoticiaRepository $noticiaRepo,UsuarioRepository $usuarioRepo, VotoComentarioRepository $votoComentarioRepo): Response 
     {
@@ -44,6 +46,7 @@ class AdminDashboardController extends AbstractController
         ]);
     }
 
+    // Acceso rápido a la gestión de denuncias desde el panel de administrador.
     #[Route('/admin/denuncias', name: 'admin_denuncias')]
     public function gestionarDenuncias(DenunciaComentarioRepository $repo): Response {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -51,6 +54,7 @@ class AdminDashboardController extends AbstractController
         return $this->render('admin/denuncias.html.twig', ['denuncias' => $denuncias]);
     }
 
+    // Acceso rápido a la gestión de usuarios desde el panel de administrador.
     #[Route('/admin/usuarios', name: 'admin_usuarios')]
     public function gestionarUsuarios(UsuarioRepository $repo): Response {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');

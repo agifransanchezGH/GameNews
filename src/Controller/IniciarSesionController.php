@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+// Controlador responsable del inicio y cierre de sesión de los usuarios.
+// Muestra el formulario de login y procesa posibles errores de autenticación.
 class IniciarSesionController extends AbstractController
 {
 #[Route('/login', name: 'app_iniciar_sesion')]
@@ -16,7 +18,7 @@ public function login(AuthenticationUtils $authenticationUtils): Response
     $error = $authenticationUtils->getLastAuthenticationError();
 
     $usuario = $this->getUser();
-
+        //Se verifica que no haya un usuario autenticado
         if ($usuario) {
             return $this->redirectToRoute('app_pagina_principal');
         } else {

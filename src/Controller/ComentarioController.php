@@ -11,9 +11,10 @@ use App\Entity\Noticia;
 use App\Entity\Comentario;
 use App\Entity\VotoComentario;
 
-
+// Controlador para creación de comentarios y gestión de votos sobre comentarios.
 class ComentarioController extends AbstractController 
 {
+// Crea un nuevo comentario asociado a una noticia.
 #[Route('/noticia/{id}/comentario', name: 'agregar_comentario', methods: ['POST'])]
 public function agregarComentario(Request $request, EntityManagerInterface $em, int $id): Response
 {
@@ -25,6 +26,7 @@ public function agregarComentario(Request $request, EntityManagerInterface $em, 
     //Contenido del comentario que se quiere realizar
     $contenido = $request->request->get('contenido');
 
+    //Comprueba que el contenido no este vacio y haya un usuario autenticado
     if ($contenido && $this->getUser()) {
         $comentario = new Comentario();
         $comentario->setContenido($contenido);
@@ -38,6 +40,7 @@ public function agregarComentario(Request $request, EntityManagerInterface $em, 
     return $this->redirectToRoute('app_pagina_noticia', ['id' => $noticia->getId()]);
 }
 
+// Registra o actualiza el voto de un usuario sobre un comentario concreto.
 #[Route('/comentario/{id}/votar', name: 'votar_comentario', methods: ['GET','POST'])]
 public function votarComentario(int $id, Request $request, EntityManagerInterface $em): Response
 {
@@ -50,14 +53,16 @@ public function votarComentario(int $id, Request $request, EntityManagerInterfac
     if (!$comentario) {
         throw $this->createNotFoundException('Comentario no encontrado');
     }
-
+    //(int) convierte el valor obtenido a entero 
     $valor = (int) $request->request->get('valor'); // "1" o "0"
+    //Se compara si el entero es igual a uno y se almacena el resultado (true o false)
     $valor = $valor === 1;
 
     $votoExistente = $em->getRepository(VotoComentario::class)->findOneBy(['usuario' => $usuario, 'comentario' => $comentario]);
 
+    //Se verifica si existe el voto
     if ($votoExistente) {
-        $votoExistente->setValor($valor);
+        $votoExistente->setValor($valor);//Se setea el nuevo valor
     } else {
         $voto = new VotoComentario();
         $voto->setUsuario($usuario);

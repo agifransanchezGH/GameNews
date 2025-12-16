@@ -18,8 +18,10 @@ use App\Entity\VotoNoticia;
 use App\Entity\Noticia;
 use DateTimeImmutable;
 
+// Controlador responsable de mostrar noticias, gestionar votos y CRUD de noticias para editores.
 class NoticiaController extends AbstractController
 {
+    // Muestra el detalle de una noticia concreta.
     #[Route('/noticia/{id}', name: 'app_pagina_noticia')]
     public function verNoticia(int $id, NoticiaManager $noticiaManager): Response
     {
@@ -36,6 +38,7 @@ class NoticiaController extends AbstractController
         }
     }
 
+    // Registra un voto numérico de un usuario autenticado sobre una noticia.
     #[Route('/noticia/{id}/votar', name: 'noticia_votar')]
     public function votarNoticia(int $id, Request $request, NoticiaRepository $noticiaRepo, VotoNoticiaRepository $votoRepo, EntityManagerInterface $em): Response
     {
@@ -50,7 +53,7 @@ class NoticiaController extends AbstractController
             $this->addFlash('error', 'Noticia no encontrada');
             return $this->redirectToRoute('app_pagina_principal');
         }
-
+        //Obtencion de la puntuacion y conversion dato de tipo entero
         $puntuacion = (int) $request->request->get('puntuacion');
 
         $voto = $votoRepo->findOneBy([
@@ -76,41 +79,7 @@ class NoticiaController extends AbstractController
         return $this->redirectToRoute('app_pagina_noticia', ['id' => $id]);
     }
 
-    #[Route('/buscar', name: 'buscar_contenido')]
-    public function buscar(Request $request, EntityManagerInterface $em): Response
-    {
-        $termino = $request->query->get('q'); // término de búsqueda
-        $categoriaId = $request->query->get('categoria'); // filtro por categoría
-        $fechaDesde = $request->query->get('desde');
-        $fechaHasta = $request->query->get('hasta');
-
-        $qb = $em->getRepository(Noticia::class)->createQueryBuilder('n');
-        if ($termino) {
-            $qb->andWhere('n.titulo LIKE :termino OR n.subtitulo LIKE :termino OR n.cuerpo LIKE :termino')
-                ->setParameter('termino', '%' . $termino . '%');
-        }
-        if ($categoriaId) {
-            $qb->andWhere('n.categoria = :cat')
-                ->setParameter('cat', $categoriaId);
-        }
-        if ($fechaDesde) {
-            $qb->andWhere('n.fechaPublicacion >= :desde')
-                ->setParameter('desde', new \DateTime($fechaDesde));
-        }
-        if ($fechaHasta) {
-            $qb->andWhere('n.fechaPublicacion <= :hasta')
-                ->setParameter('hasta', new \DateTime($fechaHasta));
-        }
-        $resultados = $qb->getQuery()->getResult();
-        
-        return $this->render('paginaPrincipal.html.twig', [
-            'noticias' => $resultados,
-            'busqueda' => $termino,
-        ]);
-    }
-
-
-    //Metodo para renderizar la template con el formulario para crear una nueva noticia
+    // Método para renderizar la vista con el formulario de creación de una nueva noticia (solo editores).
     #[Route('/editor/noticia/nueva', name: 'noticia_nueva', methods: ['GET', 'POST'])]
     public function nueva(CategoriaRepository $categoriaRepository): Response
     {
@@ -122,29 +91,37 @@ class NoticiaController extends AbstractController
         ]);
     }
 
-    //Metodo que maneja la logica de creacion de una noticia
+    // Método que maneja la lógica de creación de una noticia, incluyendo la subida de imagen.
     #[Route('/editor/noticia/crear', name: 'noticia_crear', methods: ['GET', 'POST'])]
     public function crear(Request $request, EntityManagerInterface $em, CategoriaRepository $categoriaRepository): Response
     {
+        //Si el formulario se envio, se procesan los datos
         if ($request->isMethod('POST')) {
             $titulo = $request->request->get('titulo');
             $subtitulo = $request->request->get('subtitulo');
             $cuerpo = $request->request->get('cuerpo');
+
+            //Reques del id de la categoria para buscarla a traves del repository
             $categoriaId = $request->request->get('categoria');
             $categoria = $categoriaRepository->find($categoriaId);
+
             $estado = $request->request->get('estado');
             $fechaCreacion = new DateTimeImmutable();
             
+            
             $imagenFile = $request->files->get('imagen');
             $nombreImagen = null;
-
+            
+            //Se valida que los campos estan completos
             if (!$titulo || !$subtitulo || !$cuerpo){
                 $this->addFlash('error', 'Titulo, subtitulo y cuerpo son campos obligatorios');
                     return $this->redirectToRoute('noticia_crear');
             }
             if ($imagenFile) {
+                //construcciond del nombre de la imagen y agregado de la extension
                 $nombreImagen = uniqid().'.'.$imagenFile->guessExtension();
                 try {
+                    //Se mueve el archivo a la carpeta definida en services.yaml (public/images)
                     $imagenFile->move(
                         $this->getParameter('imagenes_directorio'), // definido en services.yaml
                         $nombreImagen
@@ -162,7 +139,7 @@ class NoticiaController extends AbstractController
             $noticia->setEstado($estado);
             $noticia->setFechaPublicacion($fechaCreacion);
             $noticia->setCategoria($categoria);
-            
+            //Se comprueba que la variable no este vacia
             if ($nombreImagen) {
                 $noticia->setImagen($nombreImagen);
             }
@@ -178,6 +155,7 @@ class NoticiaController extends AbstractController
         ]);
     }
 
+    // Permite a un editor editar una noticia existente y actualizar su contenido/imagen/categoría.
     #[Route('/noticia/editar/{id}', name: 'noticia_editar', methods: ['GET','POST'])]
     public function editar(Request $request, EntityManagerInterface $em, int $id, CategoriaRepository $categoriaRepository): Response
     {
@@ -185,7 +163,7 @@ class NoticiaController extends AbstractController
         if (!$noticia) {
             throw $this->createNotFoundException('Noticia no encontrada');
         }
-
+        //Si el formulario se envio, se procesan los dato
         if ($request->isMethod('POST')) {
             $noticia->setTitulo($request->request->get('titulo'));
             $noticia->setSubtitulo($request->request->get('subtitulo'));
@@ -221,9 +199,11 @@ class NoticiaController extends AbstractController
         ]);
     }
 
+    // Elimina una noticia desde el panel de editor.
     #[Route('/editor/noticia/{id}/eliminar', name: 'noticia_eliminar', methods: ['POST'])]
     public function eliminar(int $id, EntityManagerInterface $em): Response
     {
+        //Permiso de acceso para el rol editor
         $this->denyAccessUnlessGranted('ROLE_EDITOR');
         $noticia = $em->getRepository(Noticia::class)->find($id);
 

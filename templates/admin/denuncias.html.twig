@@ -34,8 +34,8 @@
                 <td>{{ denuncia.estado }}</td>
                 <td>
                     {% if denuncia.estado == 'pendiente' %}
-                        <a href="{{ path('admin_denuncia_estado', {id: denuncia.id, estado: 'resuelta'}) }}"> Eliminar comentario</a>
-                        <a href="{{ path('admin_denuncia_estado', {id: denuncia.id, estado: 'rechazada'}) }}"> Eliminar Comentario</a>
+                        <a href="{{ path('admin_denuncia_estado', {id: denuncia.id, estado: 'resuelta'}) }}"> Eliminar comentario </a>
+                        <a href="{{ path('admin_denuncia_estado', {id: denuncia.id, estado: 'rechazada'}) }}"> Rechazar denuncia </a>
                     {% else %}
                         <em>Ya gestionada</em>
                     {% endif %}

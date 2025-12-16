@@ -9,8 +9,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+// Controlador para la gestión de usuarios desde el panel de administración.
 class UsuarioController extends AbstractController
 {
+    // Lista todos los usuarios para que el administrador pueda gestionarlos.
     #[Route('/admin/usuarios', name: 'usuarios_listar')]
     public function listar(EntityManagerInterface $em): Response
     {
@@ -23,7 +25,7 @@ class UsuarioController extends AbstractController
         ]);
     }
 
-    //Metodo que renderiza la template para editar un usuario
+    // Renderiza el formulario para editar los datos y el estado de un usuario.
     #[Route('/admin/usuario/{id}/editar', name: 'usuario_editar')]
     public function editar(int $id, EntityManagerInterface $em): Response
     {
@@ -39,7 +41,8 @@ class UsuarioController extends AbstractController
             'usuario' => $usuario,
         ]);
     }
-    //Metodo que actualiza la informacion/estdo del usuario
+
+    // Actualiza el rol y el estado (activo/suspendido) de un usuario.
     #[Route('/admin/usuario/{id}/actualizar', name: 'usuario_actualizar', methods: ['POST'])]
     public function actualizar(int $id, Request $request, EntityManagerInterface $em): Response
     {
@@ -64,6 +67,7 @@ class UsuarioController extends AbstractController
 
 
 
+    // Elimina un usuario, respetando la regla de negocio de no borrar al administrador principal.
     #[Route('/admin/usuario/{id}/eliminar', name: 'usuario_eliminar', methods: ['POST'])]
     public function eliminar(int $id, EntityManagerInterface $em): Response
     {

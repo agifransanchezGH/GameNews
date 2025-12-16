@@ -9,8 +9,10 @@ use App\Repository\ComentarioRepository;
 use App\Repository\DenunciaComentarioRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
+// Controlador que permite a los usuarios denunciar comentarios inapropiados.
 class DenunciaController extends AbstractController {
-#[Route('/comentario/{id}/denunciar', name: 'comentario_denunciar')]
+// Muestra el formulario de denuncia y procesa el envío de una denuncia sobre un comentario.
+#[Route('/comentario/{id}/denunciar', name: 'comentario_denunciar', methods: ['GET','POST'])]
 public function denunciar(int $id, Request $request, ComentarioRepository $comentarioRepo, DenunciaComentarioRepository $denunciaRepo, EntityManagerInterface $em): Response 
 {
     $usuario = $this->getUser();
@@ -25,12 +27,13 @@ public function denunciar(int $id, Request $request, ComentarioRepository $comen
         return $this->redirectToRoute('app_pagina_principal');
     }
 
+    //Se verica que el usuario ya denuncio el comentario
     $yaReportado = $denunciaRepo->findOneBy(['denunciante' => $usuario,'comentario' => $comentario]);
     if ($yaReportado) {
         $this->addFlash('error', 'Ya has reportado este comentario');
         return $this->redirectToRoute('app_pagina_noticia', ['id' => $comentario->getNoticia()->getId()]);
     }
-
+    //Si el formulario se envio, se procesan los datos
     if ($request->isMethod('POST')) {
         $tipo = $request->request->get('tipo');
         $descripcion = $request->request->get('descripcion');

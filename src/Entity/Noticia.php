@@ -8,49 +8,63 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+// Entidad que representa una noticia publicada en la plataforma.
 #[ORM\Entity(repositoryClass: NoticiaRepository::class)]
 class Noticia
 {
+    // Identificador único de la noticia.
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column (type: 'integer')]
     private ?int $id = null;
 
+    // Título principal de la noticia.
     #[ORM\Column(length: 100)]
     private ?string $titulo = null;
 
+    // Subtítulo corto de la noticia.
     #[ORM\Column(length: 150)]
     private ?string $subtitulo = null;
 
+    // Cuerpo completo de la noticia.
     #[ORM\Column(type: Types::TEXT)]
     private ?string $cuerpo = null;
 
+    // Fecha y hora de publicación de la noticia.
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeInterface $fechaPublicacion = null;
 
+    // Estado de la noticia (publicada, borrador).
     #[ORM\Column(length: 100)]
     private ?string $estado = null;
 
+    // Valoración promedio calculada a partir de los votos recibidos.
     #[ORM\Column(type: Types::FLOAT, nullable: true)]
     private ?float $valoracionPromedio = null;
 
+    // Nombre de archivo de la imagen asociada a la noticia.
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imagen = null;
     
+    // Comentarios asociados a la noticia.
     #[ORM\OneToMany(targetEntity: Comentario::class, mappedBy: 'Noticia', orphanRemoval: true, cascade: ['remove'])]
     private Collection $comentarios;
 
+    // Posible relación alternativa de comentarios (según cómo se haya generado la entidad).
     #[ORM\OneToMany(targetEntity: Comentario::class, mappedBy: 'noticia')]
     private Collection $comentario;
 
+    // Votos de los usuarios sobre esta noticia.
     #[ORM\OneToMany(targetEntity: VotoNoticia::class, mappedBy: 'noticia', cascade: ['remove'], orphanRemoval: true)]
     private Collection $votoNoticias;
 
+    // Categoría a la que pertenece la noticia.
     #[ORM\ManyToOne(targetEntity: Categoria::class)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Categoria $categoria = null;
 
 
+    // Inicializa las colecciones asociadas.
     public function __construct()
     {
         $this->comentarios = new ArrayCollection();
@@ -135,7 +149,6 @@ class Noticia
         return $this;
     }
 
-    // --- Nuevo getter/setter para imagen ---
     public function getImagen(): ?string
     {
         return $this->imagen;
@@ -146,9 +159,7 @@ class Noticia
         $this->imagen = $imagen;
         return $this;
     }
-    /**
-     * @return Collection<int, Comentario>
-     */
+    
     public function getComentarios(): Collection
     {
         return $this->comentarios;

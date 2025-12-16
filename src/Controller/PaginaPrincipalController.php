@@ -11,8 +11,10 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Repository\NoticiaRepository;
 use App\Entity\Noticia;
 
+// Controlador de la página principal: lista noticias, categorías y gestiona búsqueda básica.
 class PaginaPrincipalController extends AbstractController
 {
+    // Muestra la página principal con el listado de noticias y categorías.
     #[Route('/', name: 'app_pagina_principal')]
     public function listado(EntityManagerInterface $em, CategoriaRepository $categoriaRepository): Response
     {
@@ -21,7 +23,8 @@ class PaginaPrincipalController extends AbstractController
 
         $usuario = $this->getUser();
 
-        // Comprueba si hay una sesion iniciada, en caso de que no, permite navegar como lector, de lo contrario verifica el estado de la cuenta
+        // Comprueba si hay una sesión iniciada; si no, se navega como lector.
+        // Si hay usuario logueado, se verifica que la cuenta siga activa.
         if ($usuario === null) {
             return $this->render('pagina_principal/paginaPrincipal.html.twig', [
                 'controller_name' => 'PaginaPrincipalController',
@@ -29,11 +32,11 @@ class PaginaPrincipalController extends AbstractController
                 'categorias' => $categorias,
             ]);
         } else {
-            // Verificación de estado de cuenta
-            // getEstado() devuelve true si la cuenta está activa, false si está suspendida. Marca error pero funciona
+            // Verificación de estado de cuenta.
+            // getEstado() devuelve true si la cuenta está activa, false si está suspendida. (Marca error pero funciona)
             if ($usuario && !$usuario->getEstado()) {
                 $this->addFlash('error', 'Tu cuenta está suspendida. Puedes navegar como lector sin iniciar sesión.Contacte con un administrador');
-                // Cierra la sesion para que quede como lector. Este get es parte del AbtractController
+                // Cierra la sesión para que el usuario vuelva a ser lector. (setSecurityTokenStorage es parte de AbstractController)
                 $this->container->get('security.token_storage')->setToken(null);
             }
         }
@@ -45,9 +48,11 @@ class PaginaPrincipalController extends AbstractController
         ]);
     }
 
+    // Acción de búsqueda de noticias por texto, categoría y rango de fechas desde la página principal.
     #[Route('/buscar', name: 'buscar_contenido')]
     public function buscar(Request $request, NoticiaRepository $noticiaRepository, CategoriaRepository $categoriaRepository): Response
     {
+        //Consulta personalizada a la base de datos, a traves de noticiaRepository
         $q = $request->query->get('q');
         $categoriaId = $request->query->get('categoria');
         $desde = $request->query->get('desde');

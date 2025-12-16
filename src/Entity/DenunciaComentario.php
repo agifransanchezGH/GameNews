@@ -6,30 +6,38 @@ use App\Repository\DenunciaComentarioRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+// Entidad que representa una denuncia realizada por un usuario sobre un comentario.
 #[ORM\Entity(repositoryClass: DenunciaComentarioRepository::class)]
 class DenunciaComentario
 {
+    // Identificador único de la denuncia.
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null; 
 
+    // Tipo de denuncia (spam, insultos, contenido inapropiado, etc.).
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $tipo = null;
 
+    // Descripción opcional que el usuario indica sobre el motivo.
     #[ORM\Column(type: Types::TEXT)]
     private ?string $descripcion = null;
 
+    // Fecha y hora en que se creó la denuncia.
     #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $fecha = null;
 
+    // Usuario que ha realizado la denuncia.
     #[ORM\ManyToOne(targetEntity: Usuario::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?Usuario $denunciante = null;
 
+    // Estado actual de la denuncia (pendiente, resuelta, rechazada, etc.).
     #[ORM\Column(length: 30)]
     private ?string $estado = null;
 
+    // Comentario denunciado.
     #[ORM\ManyToOne(inversedBy: 'denunciaComentarios')]
     private ?Comentario $comentario = null;
 

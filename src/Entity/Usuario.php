@@ -9,41 +9,54 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+// Entidad que representa a un usuario registrado en la aplicación.
+// Implementa las interfaces de seguridad de Symfony para integrarse con el sistema de login.
 #[ORM\Entity(repositoryClass: UsuarioRepository::class)]
 class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    // Identificador único del usuario.
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    // Correo electrónico del usuario, usado también como identificador de login.
     #[ORM\Column(length: 150)]
     private ?string $correo = null;
 
+    // Nombre de usuario visible en la plataforma.
     #[ORM\Column(length: 100)]
     private ?string $nombreUsuario = null;
 
+    // Contraseña encriptada del usuario.
     #[ORM\Column(length: 150)]
     private ?string $contraseña = null;
 
+    // Rol principal del usuario (ROLE_USER, ROLE_ADMIN, ROLE_EDITOR).
     #[ORM\Column(length: 100)]
     private ?string $rol = null;
 
+    // Estado de la cuenta: true = activa, false = suspendida.
     #[ORM\Column(type: 'boolean', options: ['default' => true])]
     private ?bool $estado = null;
 
+    // Comentarios realizados por el usuario.
     #[ORM\OneToMany(targetEntity: Comentario::class, mappedBy: 'usuario')]
     private Collection $comentario;
 
+    // Votos realizados por el usuario sobre comentarios.
     #[ORM\OneToMany(targetEntity: VotoComentario::class, mappedBy: 'Usuario')]
     private Collection $votoComentarios;
 
+    // Votos realizados por el usuario sobre noticias.
     #[ORM\OneToMany(targetEntity: VotoNoticia::class, mappedBy: 'usuario')]
     private Collection $votoNoticias;
 
+    // Denuncias realizadas por el usuario sobre comentarios.
     #[ORM\OneToMany(targetEntity: DenunciaComentario::class, mappedBy: 'denunciante', orphanRemoval: true)]
     private Collection $denunciaComentario;
 
+    // Inicializa las colecciones de relaciones.
     public function __construct()
     {
         $this->comentario = new ArrayCollection();
@@ -116,9 +129,10 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+    
     //Esto se creo automaticamente por symfony, son los metodos de UserInterface
-
-    // UserInterface methods
+    // Métodos requeridos por las interfaces de seguridad de Symfony.
+    // Devuelve la lista de roles del usuario para el sistema de seguridad.
     public function getRoles(): array
     {
         $roles = [];
@@ -170,9 +184,7 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    /**
-     * @return Collection<int, Comentario>
-     */
+    
     public function getComentario(): Collection
     {
         return $this->comentario;
@@ -200,9 +212,7 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, VotoComentario>
-     */
+    
     public function getVotoComentarios(): Collection
     {
         return $this->votoComentarios;
@@ -230,9 +240,7 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, VotoNoticia>
-     */
+    
     public function getVotoNoticias(): Collection
     {
         return $this->votoNoticias;
@@ -260,9 +268,7 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, DenunciaComentario>
-     */
+    
     public function getDenunciaComentario(): Collection
     {
         return $this->denunciaComentario;

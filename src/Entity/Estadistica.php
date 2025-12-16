@@ -6,23 +6,29 @@ use App\Repository\EstadisticaRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+// Entidad que representa un valor de la estadistica.
 #[ORM\Entity(repositoryClass: EstadisticaRepository::class)]
 class Estadistica
 {
+    // Identificador único del registro estadístico.
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    // Tipo de estadística (por ejemplo: visitas, comentarios, votos, etc.).
     #[ORM\Column(length: 150)]
     private ?string $tipo = null;
 
+    // Fecha/hora desde la cual se mide la estadística.
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeInterface $fechaDesde = null;
 
+    // Fecha/hora hasta la cual se mide la estadística.
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeInterface $fechaHasta = null;
 
+    // Valor numérico de la estadística en el rango de fechas.
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $valor = null;
 
